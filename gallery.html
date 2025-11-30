@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Cosmos Holiday</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav
+    class="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white shadow-2xl sticky top-0 z-50 backdrop-blur-sm">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <!-- Logo Section -->
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="window.location.href='index.html'">
+          <div class="relative">
+            <img src="logo.png" alt="Cosmos Holiday Logo"
+              class="h-14 w-auto transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+            <div
+              class="absolute inset-0 bg-white/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+          </div>
+          <div>
+            <h1
+              class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+              COSMOS HOLIDAY
+            </h1>
+            <span
+              class="inline-block text-xs bg-yellow-400 text-gray-800 px-3 py-1 rounded-full font-bold shadow-md animate-pulse">
+              WE ARE FOR THE STUDENTS
+            </span>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex items-center gap-2">
+          <a href="index.html"
+            class="nav-link px-4 py-2 rounded-lg transition-all duration-300 hover:bg-yellow-400/20 hover:text-yellow-300 hover:shadow-lg">HOME</a>
+          <a href="index.html#packages"
+            class="nav-link px-4 py-2 rounded-lg transition-all duration-300 hover:bg-yellow-400/20 hover:text-yellow-300 hover:shadow-lg">QUERY</a>
+          <a href="gallery.html" class="nav-link px-4 py-2 rounded-lg bg-yellow-400/20 text-yellow-300">GALLERY</a>
+          <a href="index.html#about"
+            class="nav-link px-4 py-2 rounded-lg transition-all duration-300 hover:bg-yellow-400/20 hover:text-yellow-300 hover:shadow-lg">ABOUT
+            US</a>
+          <a href="index.html#contact"
+            class="nav-link px-4 py-2 rounded-lg transition-all duration-300 hover:bg-yellow-400/20 hover:text-yellow-300 hover:shadow-lg">CONTACT
+            US</a>
+
+          <!-- Language Toggle -->
+          <button id="langToggle"
+            class="bg-white text-blue-600 px-4 py-2 rounded-lg font-bold hover:bg-blue-50 hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
+            <span id="langIcon" class="text-lg">🇬🇧</span>
+            <span id="langText" class="text-sm">EN</span>
+          </button>
+
+          <!-- Login Button -->
+          <button id="authBtn"
+            class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-800 px-6 py-2 rounded-lg font-bold hover:from-yellow-500 hover:to-yellow-600 hover:scale-105 hover:shadow-xl transition-all duration-300 shadow-lg">
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-6xl font-bold mb-4">Photo Gallery</h1>
+      <p class="text-xl">Explore our amazing travel destinations through stunning photographs</p>
+    </div>
+  </section>
+
+  <!-- Gallery Tabs -->
+  <section class="bg-white py-8 sticky top-20 z-40 shadow-md">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-center gap-4 flex-wrap">
+        <button onclick="filterGallery('all')"
+          class="gallery-filter active px-6 py-2 rounded-full font-semibold transition-all" data-category="all">
+          All Destinations
+        </button>
+        <button onclick="filterGallery('domestic')"
+          class="gallery-filter px-6 py-2 rounded-full font-semibold transition-all" data-category="domestic">
+          Inside Bangladesh
+        </button>
+        <button onclick="filterGallery('international')"
+          class="gallery-filter px-6 py-2 rounded-full font-semibold transition-all" data-category="international">
+          Outside Bangladesh
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Grid -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Domestic Destinations -->
+        <div class="gallery-item domestic" data-category="domestic">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop" alt="Cox's Bazar"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Cox's Bazar</h3>
+                <p class="text-white/90 text-sm">World's longest natural sea beach</p>
+                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item domestic" data-category="domestic">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop" alt="Bandarban"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Bandarban Hills</h3>
+                <p class="text-white/90 text-sm">Majestic mountains and tribal culture</p>
+                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item domestic" data-category="domestic">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1563789031959-4c02bcb41319?w=800&h=600&fit=crop" alt="Sylhet"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Sylhet Tea Gardens</h3>
+                <p class="text-white/90 text-sm">Lush green tea estates and waterfalls</p>
+                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item domestic" data-category="domestic">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=800&h=600&fit=crop"
+              alt="Sundarbans" class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Sundarbans</h3>
+                <p class="text-white/90 text-sm">Largest mangrove forest in the world</p>
+                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- International Destinations -->
+        <div class="gallery-item international" data-category="international">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&h=600&fit=crop" alt="Maldives"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Maldives</h3>
+                <p class="text-white/90 text-sm">Tropical paradise with crystal waters</p>
+                <span
+                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item international" data-category="international">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&h=600&fit=crop" alt="Bangkok"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Bangkok, Thailand</h3>
+                <p class="text-white/90 text-sm">Vibrant city with temples and markets</p>
+                <span
+                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item international" data-category="international">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop" alt="Dubai"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Dubai, UAE</h3>
+                <p class="text-white/90 text-sm">Modern city with luxury shopping</p>
+                <span
+                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item international" data-category="international">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800&h=600&fit=crop" alt="Singapore"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Singapore</h3>
+                <p class="text-white/90 text-sm">Garden city with modern architecture</p>
+                <span
+                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item international" data-category="international">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=600&fit=crop" alt="Bali"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">Bali, Indonesia</h3>
+                <p class="text-white/90 text-sm">Island paradise with temples and beaches</p>
+                <span
+                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-item international" data-category="international">
+          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop" alt="London"
+              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <h3 class="text-white text-2xl font-bold mb-2">London, UK</h3>
+                <p class="text-white/90 text-sm">Historic city with iconic landmarks</p>
+                <span
+                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm">&copy; 2024 Cosmos Holiday. Your Trusted Partner for Student Travel & Tourism</p>
+    </div>
+  </footer>
+
+  <style>
+    .gallery-filter {
+      background: white;
+      color: #374151;
+      border: 2px solid #e5e7eb;
+    }
+
+    .gallery-filter:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    .gallery-filter.active {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .gallery-item {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <script>
+    function filterGallery(category) {
+      const items = document.querySelectorAll('.gallery-item');
+      const buttons = document.querySelectorAll('.gallery-filter');
+
+      // Update active button
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-category') === category) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Filter items
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Login button
+    document.getElementById('authBtn').onclick = () => {
+      alert('Login feature will be added with Firebase later!');
+    };
+
+    // Language toggle (placeholder)
+    document.getElementById('langToggle').onclick = () => {
+      const langIcon = document.getElementById('langIcon');
+      const langText = document.getElementById('langText');
+
+      if (langText.textContent === 'EN') {
+        langIcon.textContent = '🇧🇩';
+        langText.textContent = 'বাং';
+      } else {
+        langIcon.textContent = '🇬🇧';
+        langText.textContent = 'EN';
+      }
+    };
+  </script>
+</body>
+
+</html>

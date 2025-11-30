@@ -82,7 +82,7 @@ nav .nav-link::after {
     left: 50%;
     width: 0;
     height: 2px;
-    background: white;
+    background: #fbbf24;
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -122,6 +122,7 @@ nav .nav-link:hover::after {
 /* Smooth scroll */
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for sticky nav */
 }
 
 /* Loading spinner */
