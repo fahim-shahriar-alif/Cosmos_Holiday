@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmos Holiday - Student Travel Agency</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <h1 class="text-3xl font-bold">🌍 COSMOS HOLIDAY</h1>
+          <span class="text-xs bg-yellow-400 text-gray-800 px-2 py-1 rounded">12+ YEARS OF EXCELLENCE</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#" class="hover:underline">HOME</a>
+          <a href="#" class="hover:underline">QUERY</a>
+          <a href="#" class="hover:underline">GALLERY</a>
+          <a href="#" class="hover:underline">ABOUT US</a>
+          <a href="#contact" class="hover:underline">CONTACT US</a>
+          <button id="authBtn"
+            class="bg-yellow-400 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300">Login</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400 py-32">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-7xl font-bold text-white mb-4"
+        style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-style: italic;">Enjoy<br>YOUR HOLIDAY</h2>
+      <p class="text-3xl text-gray-800 mb-8 font-semibold">WITH YOUR FAMILY AND FRIENDS</p>
+      <a href="#packages"
+        class="inline-block bg-blue-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 shadow-xl">Explore
+        Packages</a>
+    </div>
+  </section>
+
+  <!-- Package Categories -->
+  <section class="container mx-auto px-4 py-16">
+    <h2 class="text-5xl font-bold text-center mb-12">Cosmos Package</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="relative group cursor-pointer transform hover:scale-105 transition duration-300">
+        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-2xl shadow-xl">
+          <div class="bg-white rounded-xl p-4 mb-4 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=250&fit=crop" alt="Regular"
+              class="w-full rounded-lg">
+          </div>
+          <h3 class="text-3xl font-bold text-white text-center mb-4" style="font-style: italic;">Regular<br>PACKAGE</h3>
+          <button onclick="alert('Regular packages - Coming soon!')"
+            class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">REGULAR
+            PACKAGE</button>
+        </div>
+      </div>
+      <div class="relative group cursor-pointer transform hover:scale-105 transition duration-300">
+        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-8 rounded-2xl shadow-xl">
+          <div class="bg-white rounded-xl p-4 mb-4 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=250&fit=crop" alt="Group"
+              class="w-full rounded-lg">
+          </div>
+          <h3 class="text-3xl font-bold text-white text-center mb-4" style="font-style: italic;">Group<br>PACKAGE</h3>
+          <button onclick="alert('Group packages - Coming soon!')"
+            class="w-full bg-yellow-400 text-gray-800 px-6 py-3 rounded-lg hover:bg-yellow-500 font-semibold">GROUP
+            PACKAGE</button>
+        </div>
+      </div>
+      <div class="relative group cursor-pointer transform hover:scale-105 transition duration-300">
+        <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-8 rounded-2xl shadow-xl">
+          <div class="bg-white rounded-xl p-4 mb-4 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=400&h=250&fit=crop" alt="Eid"
+              class="w-full rounded-lg">
+          </div>
+          <h3 class="text-3xl font-bold text-white text-center mb-4" style="font-style: italic;">Eid<br>package</h3>
+          <button onclick="alert('Eid packages - Coming soon!')"
+            class="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">EID
+            PACKAGE</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packages Section -->
+  <section id="packages" class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+      <!-- Latest Packages -->
+      <div class="mb-16">
+        <h3 class="text-4xl font-bold text-center mb-10">Latest Package</h3>
+        <div id="latestPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+      </div>
+
+      <!-- Recommended Packages -->
+      <div>
+        <h3 class="text-4xl font-bold text-center mb-10">Recommended Package</h3>
+        <div id="recommendedPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="bg-white py-16">
+    <div class="container mx-auto px-4 max-w-2xl">
+      <h2 class="text-4xl font-bold text-center mb-8">Send Us a Message</h2>
+      <form id="contactForm" class="bg-gray-50 p-8 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-semibold">Name</label>
+          <input type="text" name="from_name" required
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-semibold">Email</label>
+          <input type="email" name="from_email" required
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2 font-semibold">Message</label>
+          <textarea name="message" rows="5" required
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        <button type="submit"
+          class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-semibold text-lg">Send
+          Message</button>
+      </form>
+      <div id="contactStatus" class="mt-4 text-center"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm">&copy; 2024 Cosmos Holiday. Your Trusted Partner for Student Travel & Tourism</p>
+    </div>
+  </footer>
+
+  <script>
+    // Static packages data
+    const packages = [
+      {
+        id: '1',
+        name: "SUN SIYAM IRU FUSHI - MALDIVES",
+        description: "Luxury beach resort with overwater villas",
+        price: 69000,
+        duration: "4 Days",
+        category: "Maldives",
+        featured: "latest",
+        discount: 15,
+        image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=400&h=250&fit=crop"
+      },
+      {
+        id: '2',
+        name: "FIHALHOHI ISLAND RESORT - MALDIVES",
+        description: "Paradise island getaway with crystal waters",
+        price: 60500,
+        duration: "4 Days",
+        category: "Maldives",
+        featured: "latest",
+        discount: 20,
+        image: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=400&h=250&fit=crop"
+      },
+      {
+        id: '3',
+        name: "BANGKOK - PATTAYA TOUR",
+        description: "Explore Thailand's vibrant cities",
+        price: 45000,
+        duration: "5 Days",
+        category: "Thailand",
+        featured: "latest",
+        discount: 10,
+        image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=400&h=250&fit=crop"
+      },
+      {
+        id: '4',
+        name: "DUBAI SHOPPING FESTIVAL",
+        description: "Shop till you drop in Dubai",
+        price: 85000,
+        duration: "6 Days",
+        category: "UAE",
+        featured: "latest",
+        discount: 12,
+        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&h=250&fit=crop"
+      },
+      {
+        id: '5',
+        name: "KUNMING, BEIJING & SHANGHAI - CHINA",
+        description: "Discover ancient and modern China",
+        price: 112000,
+        duration: "8 Days",
+        category: "China",
+        featured: "recommended",
+        discount: 8,
+        image: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=400&h=250&fit=crop"
+      },
+      {
+        id: '6',
+        name: "LONDON-SCOTLAND TOUR",
+        description: "Historic UK adventure",
+        price: 270990,
+        duration: "6 Nights / 12 Days",
+        category: "UK",
+        featured: "recommended",
+        discount: 5,
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=250&fit=crop"
+      },
+      {
+        id: '7',
+        name: "SINGAPORE CITY TOUR",
+        description: "Modern city-state exploration",
+        price: 55000,
+        duration: "4 Days",
+        category: "Singapore",
+        featured: "recommended",
+        discount: 10,
+        image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=400&h=250&fit=crop"
+      },
+      {
+        id: '8',
+        name: "BALI PARADISE PACKAGE",
+        description: "Tropical Indonesian getaway",
+        price: 68000,
+        duration: "5 Days",
+        category: "Indonesia",
+        featured: "recommended",
+        discount: 15,
+        image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&h=250&fit=crop"
+      }
+    ];
+
+    // Create package card HTML
+    function createPackageCard(pkg) {
+      const discount = pkg.discount || 0;
+      return `
+                <div class="package-card bg-white rounded-lg shadow-lg overflow-hidden relative">
+                    ${discount > 0 ? `<div class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10">${discount}% OFF</div>` : ''}
+                    <div class="relative">
+                        <img src="${pkg.image}" alt="${pkg.name}" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 left-2 bg-blue-600 text-white px-3 py-1 rounded text-xs font-semibold">
+                            ${pkg.category}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold mb-2 truncate">${pkg.name}</h4>
+                        <p class="text-sm text-gray-500 mb-2">⏱️ ${pkg.duration}</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-2xl font-bold text-blue-600">BDT ${pkg.price.toLocaleString()}</p>
+                            </div>
+                            <button onclick="bookPackage('${pkg.id}', '${pkg.name}', ${pkg.price})" class="bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg hover:bg-yellow-500 font-semibold text-sm">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+    }
+
+    // Load packages
+    function loadPackages() {
+      const latest = packages.filter(p => p.featured === 'latest');
+      const recommended = packages.filter(p => p.featured === 'recommended');
+
+      document.getElementById('latestPackages').innerHTML = latest.map(createPackageCard).join('');
+      document.getElementById('recommendedPackages').innerHTML = recommended.map(createPackageCard).join('');
+    }
+
+    // Book package
+    function bookPackage(id, name, price) {
+      alert(`Booking Inquiry:\n\nPackage: ${name}\nPrice: BDT ${price.toLocaleString()}\n\n✅ Login and booking features will be added with Firebase later!`);
+    }
+
+    // Login button
+    document.getElementById('authBtn').onclick = () => {
+      alert('🔐 Login feature will be added with Firebase later!\n\nFor now, you can browse all packages without logging in.');
+    };
+
+    // Contact form
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const status = document.getElementById('contactStatus');
+      const formData = new FormData(e.target);
+
+      status.innerHTML = '<p class="text-green-600 font-semibold">✅ Message received! (Email integration will be added later)</p>';
+
+      console.log('Contact Form:', {
+        name: formData.get('from_name'),
+        email: formData.get('from_email'),
+        message: formData.get('message')
+      });
+
+      e.target.reset();
+    });
+
+    // Load packages on page load
+    loadPackages();
+  </script>
+</body>
+
+</html>

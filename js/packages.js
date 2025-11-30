@@ -1,44 +1,111 @@
-import { db, auth } from './config.js';
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+// Static packages data (no database needed for now)
+const staticPackages = [
+    // Latest Packages
+    {
+        id: '1',
+        name: "SUN SIYAM IRU FUSHI - MALDIVES",
+        description: "Luxury beach resort with overwater villas",
+        price: 69000,
+        duration: "4 Days",
+        category: "Maldives",
+        featured: "latest",
+        discount: 15,
+        image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=400&h=250&fit=crop"
+    },
+    {
+        id: '2',
+        name: "FIHALHOHI ISLAND RESORT - MALDIVES",
+        description: "Paradise island getaway with crystal waters",
+        price: 60500,
+        duration: "4 Days",
+        category: "Maldives",
+        featured: "latest",
+        discount: 20,
+        image: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=400&h=250&fit=crop"
+    },
+    {
+        id: '3',
+        name: "BANGKOK - PATTAYA TOUR",
+        description: "Explore Thailand's vibrant cities",
+        price: 45000,
+        duration: "5 Days",
+        category: "Thailand",
+        featured: "latest",
+        discount: 10,
+        image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=400&h=250&fit=crop"
+    },
+    {
+        id: '4',
+        name: "DUBAI SHOPPING FESTIVAL",
+        description: "Shop till you drop in Dubai",
+        price: 85000,
+        duration: "6 Days",
+        category: "UAE",
+        featured: "latest",
+        discount: 12,
+        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&h=250&fit=crop"
+    },
+    // Recommended Packages
+    {
+        id: '5',
+        name: "KUNMING, BEIJING & SHANGHAI - CHINA",
+        description: "Discover ancient and modern China",
+        price: 112000,
+        duration: "8 Days",
+        category: "China",
+        featured: "recommended",
+        discount: 8,
+        image: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=400&h=250&fit=crop"
+    },
+    {
+        id: '6',
+        name: "LONDON-SCOTLAND TOUR",
+        description: "Historic UK adventure",
+        price: 270990,
+        duration: "6 Nights / 12 Days",
+        category: "UK",
+        featured: "recommended",
+        discount: 5,
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400&h=250&fit=crop"
+    },
+    {
+        id: '7',
+        name: "SINGAPORE CITY TOUR",
+        description: "Modern city-state exploration",
+        price: 55000,
+        duration: "4 Days",
+        category: "Singapore",
+        featured: "recommended",
+        discount: 10,
+        image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=400&h=250&fit=crop"
+    },
+    {
+        id: '8',
+        name: "BALI PARADISE PACKAGE",
+        description: "Tropical Indonesian getaway",
+        price: 68000,
+        duration: "5 Days",
+        category: "Indonesia",
+        featured: "recommended",
+        discount: 15,
+        image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&h=250&fit=crop"
+    }
+];
 
-let currentUser = null;
-
-onAuthStateChanged(auth, (user) => {
-    currentUser = user;
-});
-
-// Fetch and display packages
-async function loadPackages() {
+// Load packages from static data
+function loadPackages() {
     const latestContainer = document.getElementById('latestPackages');
     const recommendedContainer = document.getElementById('recommendedPackages');
     
-    if (latestContainer) latestContainer.innerHTML = '<div class="spinner"></div>';
-    if (recommendedContainer) recommendedContainer.innerHTML = '<div class="spinner"></div>';
+    const latest = staticPackages.filter(p => p.featured === 'latest');
+    const recommended = staticPackages.filter(p => p.featured === 'recommended');
     
-    try {
-        const packagesSnapshot = await getDocs(collection(db, 'packages'));
-        const packages = packagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
-        const latest = packages.filter(p => p.featured === 'latest').slice(0, 4);
-        const recommended = packages.filter(p => p.featured === 'recommended').slice(0, 4);
-        
-        if (latestContainer) {
-            latestContainer.innerHTML = latest.length ? 
-                latest.map(createPackageCard).join('') : 
-                '<p class="text-gray-500 col-span-4">No latest packages available</p>';
-        }
-        
-        if (recommendedContainer) {
-            recommendedContainer.innerHTML = recommended.length ? 
-                recommended.map(createPackageCard).join('') : 
-                '<p class="text-gray-500 col-span-4">No recommended packages available</p>';
-        }
-            
-    } catch (error) {
-        console.error('Error loading packages:', error);
-        if (latestContainer) latestContainer.innerHTML = '<p class="text-red-500 col-span-4">Failed to load packages</p>';
-        if (recommendedContainer) recommendedContainer.innerHTML = '<p class="text-red-500 col-span-4">Failed to load packages</p>';
+    if (latestContainer) {
+        latestContainer.innerHTML = latest.map(createPackageCard).join('');
+    }
+    
+    if (recommendedContainer) {
+        recommendedContainer.innerHTML = recommended.map(createPackageCard).join('');
     }
 }
 
@@ -75,15 +142,18 @@ window.filterPackages = function(category) {
 };
 
 window.bookPackage = function(packageId) {
-    if (!currentUser) {
-        alert('Please login to book a package');
-        window.location.href = 'auth.html';
-        return;
+    // For now, just show an alert (no login required)
+    const pkg = staticPackages.find(p => p.id === packageId);
+    if (pkg) {
+        alert(`Booking inquiry for: ${pkg.name}\n\nPrice: BDT ${pkg.price.toLocaleString()}\n\nLogin feature will be added later!`);
     }
-    window.location.href = `booking.html?package=${packageId}`;
+};
+
+window.filterPackages = function(category) {
+    alert(`Filtering ${category} packages - Feature coming soon!`);
 };
 
 // Load packages on page load
-if (document.getElementById('domesticPackages')) {
+if (document.getElementById('latestPackages') || document.getElementById('recommendedPackages')) {
     loadPackages();
 }

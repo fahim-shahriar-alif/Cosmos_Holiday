@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Images - Cosmos Holiday Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8">Upload Package Images to Firebase Storage</h1>
+
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-xl font-semibold mb-4">Instructions:</h2>
+      <ol class="list-decimal list-inside space-y-2 text-gray-700">
+        <li>Make sure Firebase Storage is enabled in your Firebase Console</li>
+        <li>Select multiple images (JPG, PNG, WebP)</li>
+        <li>Images will be uploaded to Firebase Storage</li>
+        <li>Copy the generated URLs to use in your packages</li>
+      </ol>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <label class="block mb-4">
+        <span class="text-gray-700 font-semibold">Select Package Images:</span>
+        <input type="file" id="imageInput" multiple accept="image/*" class="mt-2 block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-lg file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-700
+                    hover:file:bg-blue-100">
+      </label>
+
+      <button id="uploadBtn"
+        class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        Upload Images to Firebase Storage
+      </button>
+    </div>
+
+    <div id="preview" class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6"></div>
+    <div id="status" class="mt-6"></div>
+    <div id="urls" class="mt-6"></div>
+
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-8">
+      <p class="text-sm text-yellow-800">
+        <strong>Note:</strong> Make sure Firebase Storage is enabled in your Firebase Console:
+        <br>Go to Firebase Console → Storage → Get Started
+      </p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+
+    // Import config
+    import { db } from './js/config.js';
+
+    // Get Firebase app instance from config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Note: You need to update this with your actual config from js/config.js
+    // Or we can read it from there
+
+    const imageInput = document.getElementById('imageInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const preview = document.getElementById('preview');
+    const status = document.getElementById('status');
+    const urls = document.getElementById('urls');
+
+    let selectedFiles = [];
+
+    imageInput.addEventListener('change', (e) => {
+      selectedFiles = Array.from(e.target.files);
+      preview.innerHTML = '';
+
+      selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          preview.innerHTML += `
+                        <div class="relative">
+                            <img src="${e.target.result}" class="w-full h-32 object-cover rounded-lg shadow">
+                            <div class="mt-2 text-xs text-gray-600 truncate">${file.name}</div>
+                        </div>
+                    `;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      uploadBtn.disabled = selectedFiles.length === 0;
+    });
+
+    uploadBtn.addEventListener('click', async () => {
+      if (selectedFiles.length === 0) {
+        alert('Please select images first');
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = 'Uploading...';
+
+      status.innerHTML = '<div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">Uploading images to Firebase Storage...</div>';
+
+      try {
+        // Initialize storage
+        const storage = getStorage();
+        const uploadedUrls = [];
+        const results = [];
+
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          const timestamp = Date.now();
+          const fileName = `packages/${timestamp}_${file.name}`;
+          const storageRef = ref(storage, fileName);
+
+          try {
+            // Upload file
+            await uploadBytes(storageRef, file);
+
+            // Get download URL
+            const downloadURL = await getDownloadURL(storageRef);
+            uploadedUrls.push({ name: file.name, url: downloadURL });
+            results.push(`<li class="text-green-600">✓ Uploaded: ${file.name}</li>`);
+
+            // Update progress
+            status.innerHTML = `<div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">Uploading... ${i + 1}/${selectedFiles.length}</div>`;
+          } catch (error) {
+            results.push(`<li class="text-red-600">✗ Failed: ${file.name} - ${error.message}</li>`);
+          }
+        }
+
+        // Show success
+        status.innerHTML = `
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        <strong>Success!</strong> Uploaded ${uploadedUrls.length} out of ${selectedFiles.length} images.
+                    </div>
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="font-semibold mb-2">Upload Results:</h3>
+                        <ul class="space-y-1 text-sm">${results.join('')}</ul>
+                    </div>
+                `;
+
+        // Show URLs
+        if (uploadedUrls.length > 0) {
+          const urlList = uploadedUrls.map(item =>
+            `<div class="bg-gray-50 p-3 rounded mb-2">
+                            <div class="font-semibold text-sm text-gray-700 mb-1">${item.name}</div>
+                            <input type="text" value="${item.url}" readonly 
+                                class="w-full px-3 py-2 border rounded text-xs" 
+                                onclick="this.select()">
+                        </div>`
+          ).join('');
+
+          urls.innerHTML = `
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-xl font-semibold mb-4">Image URLs (Click to copy):</h3>
+                            ${urlList}
+                            <div class="mt-4 text-sm text-gray-600">
+                                <strong>Tip:</strong> Copy these URLs and use them in the "image" field when adding packages to Firestore.
+                            </div>
+                        </div>
+                    `;
+        }
+
+        uploadBtn.textContent = 'Upload More Images';
+        uploadBtn.disabled = false;
+
+      } catch (error) {
+        status.innerHTML = `
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        <strong>Error!</strong> ${error.message}
+                        <br><br>
+                        <strong>Common issues:</strong>
+                        <ul class="list-disc list-inside mt-2">
+                            <li>Make sure Firebase Storage is enabled in your Firebase Console</li>
+                            <li>Check that your Firebase config includes storageBucket</li>
+                            <li>Verify your Storage security rules allow uploads</li>
+                        </ul>
+                    </div>
+                `;
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'Try Again';
+      }
+    });
+  </script>
+</body>
+
+</html>
