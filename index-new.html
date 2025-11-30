@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmos Holiday - Student Travel Agency</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
+    }
+
+    .package-card {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .package-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .package-card img {
+      transition: transform 0.5s ease;
+    }
+
+    .package-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .package-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      padding: 20px;
+      color: white;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(38, 166, 154, 0.4);
+    }
+
+    .section-title {
+      color: #e57373;
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .nav-link {
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #26a69a;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center">
+            <span class="text-white text-2xl">🌍</span>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800">Cosmos Holiday</h1>
+            <p class="text-xs text-gray-500">Your Travel Partner</p>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#" class="nav-link text-gray-700 font-medium">Home</a>
+          <a href="#packages" class="nav-link text-gray-700 font-medium">Events</a>
+          <a href="#about" class="nav-link text-gray-700 font-medium">About Us</a>
+          <a href="#hotels" class="nav-link text-gray-700 font-medium">Our Hotels</a>
+          <a href="#blog" class="nav-link text-gray-700 font-medium">Blog</a>
+          <a href="#contact" class="nav-link text-gray-700 font-medium">Contact</a>
+          <button class="bg-teal-500 text-white px-6 py-2 rounded-lg hover:bg-teal-600 transition">
+            🔐 Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient py-20 relative overflow-hidden">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-6xl font-bold text-teal-700 mb-4" style="line-height: 1.2;">
+            Cosmos Holiday
+          </h2>
+          <p class="text-xl text-gray-700 mb-2">পথ চলে পথের বাঁকে...</p>
+          <p class="text-gray-600 mb-8 leading-relaxed">
+            আমাদের অভিজ্ঞতায় সমৃদ্ধ, পরিচ্ছন্ন এবং নিরাপদ ভ্রমণ। গুহাতাগী সাথে পাবেন আপনার স্বপ্নের ভ্রমণ এবং এক নতুন
+            অভিজ্ঞতা।
+          </p>
+          <div class="flex gap-4">
+            <button class="btn-primary text-white px-8 py-3 rounded-lg font-semibold">
+              মোবাইলে কল করুন
+            </button>
+            <button
+              class="bg-white text-teal-600 border-2 border-teal-500 px-8 py-3 rounded-lg font-semibold hover:bg-teal-50 transition">
+              ইভেন্টগুলো দেখুন
+            </button>
+          </div>
+        </div>
+        <div class="hidden lg:block">
+          <div class="relative">
+            <div
+              class="w-96 h-96 rounded-full bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-500 flex items-center justify-center shadow-2xl">
+              <div class="text-center text-white">
+                <div class="text-8xl mb-4">🎒</div>
+                <h3 class="text-4xl font-bold">Cosmos Holiday</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inside Bangladesh Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h3 class="section-title">স্বর্গ গোষ্ঠী</h3>
+        <p class="text-gray-600">সারা মুলুক সিলেটের আদিবাসী আদিবাসী শ্রমিকদের শ্রমিকদের, কাজের অনেক সমাজ সমাজ ও
+          বিশ্বাসের পূর্ণ জায়গা নেয়া।<br>আপনাদের গল্প জানতে মুলুক পোষাক হবে, আবার জানতে সিখবেনকরুন।</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="package-card bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="relative h-64">
+            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop" alt="Cox's Bazar"
+              class="w-full h-full object-cover">
+            <div class="package-overlay">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=26a69a&color=fff"
+                  class="w-8 h-8 rounded-full" alt="Admin">
+                <div>
+                  <p class="text-sm font-semibold">গুহাতাগী</p>
+                  <p class="text-xs">Admin</p>
+                </div>
+                <span class="ml-auto text-xs">2025-11-28</span>
+              </div>
+              <h4 class="text-lg font-bold">বঙ্গোপসাগর হতে কক্সবাজার</h4>
+            </div>
+          </div>
+          <div class="p-4">
+            <a href="#" class="text-teal-600 font-semibold hover:underline">সম্পূর্ণটি পড়ুন →</a>
+          </div>
+        </div>
+
+        <div class="package-card bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="relative h-64">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop" alt="Bandarban"
+              class="w-full h-full object-cover">
+            <div class="package-overlay">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=26a69a&color=fff"
+                  class="w-8 h-8 rounded-full" alt="Admin">
+                <div>
+                  <p class="text-sm font-semibold">গুহাতাগী</p>
+                  <p class="text-xs">Admin</p>
+                </div>
+                <span class="ml-auto text-xs">2025-11-28</span>
+              </div>
+              <h4 class="text-lg font-bold">বান্দরবানের সেরা দর্শনীয় স্থানসমূহ</h4>
+            </div>
+          </div>
+          <div class="p-4">
+            <a href="#" class="text-teal-600 font-semibold hover:underline">সম্পূর্ণটি পড়ুন →</a>
+          </div>
+        </div>
+
+        <div class="package-card bg-white rounded-xl shadow-lg overflow-hidden">
+          <div class="relative h-64">
+            <img src="https://images.unsplash.com/photo-1563789031959-4c02bcb41319?w=600&h=400&fit=crop" alt="Sylhet"
+              class="w-full h-full object-cover">
+            <div class="package-overlay">
+              <div class="flex items-center gap-2 mb-2">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=26a69a&color=fff"
+                  class="w-8 h-8 rounded-full" alt="Admin">
+                <div>
+                  <p class="text-sm font-semibold">গুহাতাগী</p>
+                  <p class="text-xs">Admin</p>
+                </div>
+                <span class="ml-auto text-xs">2025-11-28</span>
+              </div>
+              <h4 class="text-lg font-bold">মিরিজা জাফরি : পর্বতকেন্দ্র নতুন আবাসের আকাশ</h4>
+            </div>
+          </div>
+          <div class="p-4">
+            <a href="#" class="text-teal-600 font-semibold hover:underline">সম্পূর্ণটি পড়ুন →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button
+          class="bg-white border-2 border-teal-500 text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-teal-50 transition">
+          সকলগুলো পোস্ট দেখুন
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outside Bangladesh Section -->
+  <section id="packages" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h3 class="section-title">পরবর্তী ইভেন্ট</h3>
+        <p class="text-gray-600">গুহাতাগী সাথে ভ্রমণ আপনার স্বপ্নের সমৃদ্ধ, পরিচ্ছন্ন এবং নিরাপদ ভ্রমণ</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="outsideBangladeshPackages">
+        <!-- Packages will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm">&copy; 2024 Cosmos Holiday. Your Trusted Partner for Student Travel & Tourism</p>
+    </div>
+  </footer>
+
+  <script>
+    // Package data
+    const packages = [
+      {
+        id: '1',
+        name: "২ দিনের বান্দরবান প্যাকেজ: উপমহাদেশ-বিহানাকান্দি-চিম্বুক",
+        nameEn: "2 Days Bandarban Package",
+        price: 4000,
+        duration: "2 Days / 1 Night",
+        seats: 25,
+        tracking: true,
+        date: "2026-01-15",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop"
+      },
+      {
+        id: '2',
+        name: "উপমহাদেশ, তুরস্কভূমি ও বিহানাকান্দি হাইকিং ভ্রমণ",
+        nameEn: "Hiking Adventure Package",
+        price: 2500,
+        duration: "1 Day / 2 Night",
+        seats: 12,
+        tracking: true,
+        date: "2026-01-15",
+        image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&h=400&fit=crop"
+      },
+      {
+        id: '3',
+        name: "বিহানাকান্দি ট্র্যাকিং হাইকিং ভ্রমণ",
+        nameEn: "Trekking & Hiking Tour",
+        price: 2500,
+        duration: "1 Day",
+        seats: 15,
+        tracking: true,
+        date: "2026-01-15",
+        image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&h=400&fit=crop"
+      },
+      {
+        id: '4',
+        name: "BANGKOK - PATTAYA TOUR",
+        nameEn: "Bangkok Pattaya",
+        price: 45000,
+        duration: "5 Days / 4 Nights",
+        seats: 20,
+        tracking: false,
+        date: "2026-02-01",
+        image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=600&h=400&fit=crop"
+      },
+      {
+        id: '5',
+        name: "DUBAI SHOPPING FESTIVAL",
+        nameEn: "Dubai Tour",
+        price: 85000,
+        duration: "6 Days / 5 Nights",
+        seats: 15,
+        tracking: false,
+        date: "2026-02-10",
+        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop"
+      },
+      {
+        id: '6',
+        name: "SINGAPORE CITY TOUR",
+        nameEn: "Singapore",
+        price: 55000,
+        duration: "4 Days / 3 Nights",
+        seats: 18,
+        tracking: false,
+        date: "2026-02-15",
+        image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&h=400&fit=crop"
+      }
+    ];
+
+    // Create package card
+    function createPackageCard(pkg) {
+      return `
+                <div class="package-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="relative h-64">
+                        <img src="${pkg.image}" alt="${pkg.nameEn}" class="w-full h-full object-cover">
+                        <div class="package-overlay">
+                            <h4 class="text-xl font-bold mb-2">${pkg.name}</h4>
+                            <div class="flex items-center gap-4 text-sm">
+                                ${pkg.tracking ? '<div class="flex items-center gap-1">🚶 Tracking</div>' : ''}
+                                <div class="flex items-center gap-1">⏱️ ${pkg.duration}</div>
+                                <div class="flex items-center gap-1">👥 ${pkg.seats} Seat Available</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">💰 ${pkg.price.toLocaleString()}</p>
+                            <p class="text-gray-500 text-sm">📅 ${pkg.date}</p>
+                        </div>
+                        <button onclick="bookPackage('${pkg.id}', '${pkg.nameEn}', ${pkg.price})" 
+                                class="btn-primary text-white px-6 py-2 rounded-lg font-semibold text-sm">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            `;
+    }
+
+    // Load packages
+    document.getElementById('outsideBangladeshPackages').innerHTML =
+      packages.map(createPackageCard).join('');
+
+    // Book package
+    function bookPackage(id, name, price) {
+      alert(`Booking: ${name}\\nPrice: BDT ${price.toLocaleString()}\\n\\n✅ Login feature coming soon!`);
+    }
+  </script>
+</body>
+
+</html>
