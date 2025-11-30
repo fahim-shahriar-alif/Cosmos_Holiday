@@ -10,51 +10,69 @@ onAuthStateChanged(auth, (user) => {
 
 // Fetch and display packages
 async function loadPackages() {
-    const domesticContainer = document.getElementById('domesticPackages');
-    const internationalContainer = document.getElementById('internationalPackages');
+    const latestContainer = document.getElementById('latestPackages');
+    const recommendedContainer = document.getElementById('recommendedPackages');
     
-    domesticContainer.innerHTML = '<div class="spinner"></div>';
-    internationalContainer.innerHTML = '<div class="spinner"></div>';
+    if (latestContainer) latestContainer.innerHTML = '<div class="spinner"></div>';
+    if (recommendedContainer) recommendedContainer.innerHTML = '<div class="spinner"></div>';
     
     try {
         const packagesSnapshot = await getDocs(collection(db, 'packages'));
         const packages = packagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         
-        const domestic = packages.filter(p => p.type === 'domestic');
-        const international = packages.filter(p => p.type === 'international');
+        const latest = packages.filter(p => p.featured === 'latest').slice(0, 4);
+        const recommended = packages.filter(p => p.featured === 'recommended').slice(0, 4);
         
-        domesticContainer.innerHTML = domestic.length ? 
-            domestic.map(createPackageCard).join('') : 
-            '<p class="text-gray-500">No domestic packages available</p>';
+        if (latestContainer) {
+            latestContainer.innerHTML = latest.length ? 
+                latest.map(createPackageCard).join('') : 
+                '<p class="text-gray-500 col-span-4">No latest packages available</p>';
+        }
         
-        internationalContainer.innerHTML = international.length ? 
-            international.map(createPackageCard).join('') : 
-            '<p class="text-gray-500">No international packages available</p>';
+        if (recommendedContainer) {
+            recommendedContainer.innerHTML = recommended.length ? 
+                recommended.map(createPackageCard).join('') : 
+                '<p class="text-gray-500 col-span-4">No recommended packages available</p>';
+        }
             
     } catch (error) {
         console.error('Error loading packages:', error);
-        domesticContainer.innerHTML = '<p class="text-red-500">Failed to load packages</p>';
-        internationalContainer.innerHTML = '<p class="text-red-500">Failed to load packages</p>';
+        if (latestContainer) latestContainer.innerHTML = '<p class="text-red-500 col-span-4">Failed to load packages</p>';
+        if (recommendedContainer) recommendedContainer.innerHTML = '<p class="text-red-500 col-span-4">Failed to load packages</p>';
     }
 }
 
 function createPackageCard(pkg) {
+    const discount = pkg.discount || 0;
     return `
-        <div class="package-card bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="p-6">
-                <h4 class="text-xl font-bold mb-2">${pkg.name}</h4>
-                <p class="text-gray-600 mb-4">${pkg.description}</p>
-                <div class="mb-4">
-                    <p class="text-sm text-gray-500">📅 ${pkg.dates}</p>
-                    <p class="text-2xl font-bold text-blue-600 mt-2">$${pkg.price}</p>
+        <div class="package-card bg-white rounded-lg shadow-lg overflow-hidden relative">
+            ${discount > 0 ? `<div class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10">${discount}% OFF</div>` : ''}
+            <div class="relative">
+                <img src="${pkg.image || 'https://via.placeholder.com/400x250/4169E1/FFFFFF?text=' + encodeURIComponent(pkg.name)}" 
+                     alt="${pkg.name}" class="w-full h-48 object-cover">
+                <div class="absolute top-2 left-2 bg-blue-600 text-white px-3 py-1 rounded text-xs font-semibold">
+                    ${pkg.category || 'Package'}
                 </div>
-                <button onclick="bookPackage('${pkg.id}')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                    Book Now
-                </button>
+            </div>
+            <div class="p-4">
+                <h4 class="text-lg font-bold mb-2 truncate">${pkg.name}</h4>
+                <p class="text-sm text-gray-500 mb-2">⏱️ ${pkg.duration || '4 Days'}</p>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-2xl font-bold text-blue-600">BDT ${pkg.price.toLocaleString()}</p>
+                    </div>
+                    <button onclick="bookPackage('${pkg.id}')" class="bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg hover:bg-yellow-500 font-semibold text-sm">
+                        Book Now
+                    </button>
+                </div>
             </div>
         </div>
     `;
 }
+
+window.filterPackages = function(category) {
+    alert(`Filtering ${category} packages - Feature coming soon!`);
+};
 
 window.bookPackage = function(packageId) {
     if (!currentUser) {

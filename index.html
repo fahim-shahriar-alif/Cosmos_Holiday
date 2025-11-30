@@ -12,68 +12,126 @@
 <body class="bg-gray-50">
   <!-- Navigation -->
   <nav class="bg-blue-600 text-white shadow-lg">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">🌍 Cosmos Holiday</h1>
-      <div class="space-x-4">
-        <a href="#packages" class="hover:underline">Packages</a>
-        <a href="#contact" class="hover:underline">Contact</a>
-        <button id="authBtn" class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100">Login</button>
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <h1 class="text-3xl font-bold">🌍 COSMOS HOLIDAY</h1>
+          <span class="text-xs bg-yellow-400 text-gray-800 px-2 py-1 rounded">12+ YEARS OF EXCELLENCE</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#" class="hover:underline">HOME</a>
+          <a href="#" class="hover:underline">QUERY</a>
+          <a href="#" class="hover:underline">GALLERY</a>
+          <a href="#" class="hover:underline">ABOUT US</a>
+          <a href="#contact" class="hover:underline">CONTACT US</a>
+          <button id="authBtn"
+            class="bg-yellow-400 text-gray-800 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300">Customer
+            Login</button>
+          <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100">Agent
+            Login</button>
+        </div>
       </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20">
+  <section class="relative bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400 py-32">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-5xl font-bold mb-4">Travel Smart, Travel Affordable</h2>
-      <p class="text-xl mb-8">Exclusive student packages for semester breaks</p>
-      <a href="#packages" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">Explore
+      <h2 class="text-7xl font-bold text-white mb-4"
+        style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-style: italic;">Enjoy<br>YOUR HOLIDAY</h2>
+      <p class="text-3xl text-gray-800 mb-8 font-semibold">WITH YOUR FAMILY AND FRIENDS</p>
+      <a href="#packages"
+        class="inline-block bg-blue-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-blue-700 shadow-xl">Explore
         Packages</a>
     </div>
   </section>
 
-  <!-- Packages Section -->
-  <section id="packages" class="container mx-auto px-4 py-16">
-    <h2 class="text-4xl font-bold text-center mb-12">Travel Packages</h2>
-
-    <!-- Domestic Packages -->
-    <div class="mb-12">
-      <h3 class="text-2xl font-semibold mb-6 text-blue-600">🏞️ Domestic Adventures</h3>
-      <div id="domesticPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Loaded dynamically -->
+  <!-- Package Categories -->
+  <section class="container mx-auto px-4 py-16">
+    <h2 class="text-5xl font-bold text-center mb-12">Cosmos Package</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="relative group cursor-pointer transform hover:scale-105 transition duration-300">
+        <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-2xl shadow-xl">
+          <div class="bg-white rounded-xl p-4 mb-4 overflow-hidden">
+            <img src="https://via.placeholder.com/400x250/FFA500/FFFFFF?text=Regular+Package" alt="Regular"
+              class="w-full rounded-lg">
+          </div>
+          <h3 class="text-3xl font-bold text-white text-center mb-4" style="font-style: italic;">Regular<br>PACKAGE</h3>
+          <button onclick="filterPackages('regular')"
+            class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">REGULAR
+            PACKAGE</button>
+        </div>
+      </div>
+      <div class="relative group cursor-pointer transform hover:scale-105 transition duration-300">
+        <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-8 rounded-2xl shadow-xl">
+          <div class="bg-white rounded-xl p-4 mb-4 overflow-hidden">
+            <img src="https://via.placeholder.com/400x250/4169E1/FFFFFF?text=Group+Package" alt="Group"
+              class="w-full rounded-lg">
+          </div>
+          <h3 class="text-3xl font-bold text-white text-center mb-4" style="font-style: italic;">Group<br>PACKAGE</h3>
+          <button onclick="filterPackages('group')"
+            class="w-full bg-yellow-400 text-gray-800 px-6 py-3 rounded-lg hover:bg-yellow-500 font-semibold">GROUP
+            PACKAGE</button>
+        </div>
+      </div>
+      <div class="relative group cursor-pointer transform hover:scale-105 transition duration-300">
+        <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-8 rounded-2xl shadow-xl">
+          <div class="bg-white rounded-xl p-4 mb-4 overflow-hidden">
+            <img src="https://via.placeholder.com/400x250/9370DB/FFFFFF?text=Eid+Package" alt="Eid"
+              class="w-full rounded-lg">
+          </div>
+          <h3 class="text-3xl font-bold text-white text-center mb-4" style="font-style: italic;">Eid<br>package</h3>
+          <button onclick="filterPackages('eid')"
+            class="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">EID
+            PACKAGE</button>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- International Packages -->
-    <div>
-      <h3 class="text-2xl font-semibold mb-6 text-purple-600">✈️ International Escapes</h3>
-      <div id="internationalPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Loaded dynamically -->
+  <!-- Packages Section -->
+  <section id="packages" class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+      <!-- Latest Packages -->
+      <div class="mb-16">
+        <h3 class="text-4xl font-bold text-center mb-10">Latest Package</h3>
+        <div id="latestPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Recommended Packages -->
+      <div>
+        <h3 class="text-4xl font-bold text-center mb-10">Recommended Package</h3>
+        <div id="recommendedPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Loaded dynamically -->
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="bg-gray-100 py-16">
+  <section id="contact" class="bg-white py-16">
     <div class="container mx-auto px-4 max-w-2xl">
       <h2 class="text-4xl font-bold text-center mb-8">Send Us a Message</h2>
-      <form id="contactForm" class="bg-white p-8 rounded-lg shadow-md">
+      <form id="contactForm" class="bg-gray-50 p-8 rounded-lg shadow-lg">
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">Name</label>
+          <label class="block text-gray-700 mb-2 font-semibold">Name</label>
           <input type="text" name="from_name" required
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">Email</label>
+          <label class="block text-gray-700 mb-2 font-semibold">Email</label>
           <input type="email" name="from_email" required
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 mb-2">Message</label>
+          <label class="block text-gray-700 mb-2 font-semibold">Message</label>
           <textarea name="message" rows="5" required
-            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Send
+        <button type="submit"
+          class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-semibold text-lg">Send
           Message</button>
       </form>
       <div id="contactStatus" class="mt-4 text-center"></div>
@@ -81,9 +139,98 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto px-4 text-center">
-      <p>&copy; 2024 Cosmos Holiday. Student Travel Made Easy.</p>
+  <footer class="bg-blue-600 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Office 1 -->
+        <div>
+          <h4 class="text-xl font-bold mb-4">📍 Dhanmondi (Head Office):</h4>
+          <p class="text-sm mb-2">Plaza A, R. (4th Floor), Dhaka</p>
+          <p class="text-sm mb-4">Dhaka- 1209, Bangladesh</p>
+          <div class="text-sm space-y-1">
+            <p><strong>📞 Call us</strong></p>
+            <p><strong>For VISA Information:</strong></p>
+            <p>01234567890, 01234567891</p>
+            <p><strong>For Air Ticket Information:</strong></p>
+            <p>01234567892, 01234567893</p>
+            <p><strong>For Package & Umrah Information:</strong></p>
+            <p>01234567894, 01234567895</p>
+          </div>
+        </div>
+
+        <!-- Office 2 -->
+        <div>
+          <h4 class="text-xl font-bold mb-4">📍 Banani (Branch Office):</h4>
+          <p class="text-sm mb-2">Ahsan Tower (9th Floor), Banani C/A</p>
+          <p class="text-sm mb-4">Dhaka - 1213, Bangladesh</p>
+          <div class="text-sm space-y-1">
+            <p><strong>📞 Call us</strong></p>
+            <p><strong>For VISA Information:</strong></p>
+            <p>01234567896</p>
+            <p><strong>For Air Ticket Information:</strong></p>
+            <p>01234567897</p>
+            <p><strong>For Package & Umrah Information:</strong></p>
+            <p>01234567898</p>
+          </div>
+        </div>
+
+        <!-- Office 3 -->
+        <div>
+          <h4 class="text-xl font-bold mb-4">📍 Uttara (Branch Office):</h4>
+          <p class="text-sm mb-2">Syed Grand Center (7th Floor)</p>
+          <p class="text-sm mb-4">Sector 7, Main Road, Uttara, Dhaka</p>
+          <div class="text-sm space-y-1">
+            <p><strong>📞 Call us</strong></p>
+            <p><strong>For VISA Information:</strong></p>
+            <p>01234567899</p>
+            <p><strong>For Air Ticket Information:</strong></p>
+            <p>01234567800</p>
+            <p><strong>For Package & Umrah Information:</strong></p>
+            <p>01234567801</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-blue-400 pt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h5 class="font-bold mb-3 text-lg">Useful Links</h5>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:underline">About Us</a></li>
+            <li><a href="#" class="hover:underline">Contact Us</a></li>
+            <li><a href="#" class="hover:underline">Terms & Condition</a></li>
+            <li><a href="#" class="hover:underline">Privacy Policy</a></li>
+            <li><a href="#" class="hover:underline">Refund Policy</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="font-bold mb-3 text-lg">Social Links:</h5>
+          <div class="flex gap-3">
+            <a href="#"
+              class="bg-yellow-400 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 font-bold">f</a>
+            <a href="#"
+              class="bg-yellow-400 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 font-bold">▶</a>
+            <a href="#"
+              class="bg-yellow-400 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 font-bold">t</a>
+            <a href="#"
+              class="bg-yellow-400 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 font-bold">in</a>
+            <a href="#"
+              class="bg-yellow-400 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 font-bold">W</a>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-bold mb-3 text-lg">Affiliation</h5>
+          <p class="text-sm mb-2">Certified & Trusted by:</p>
+          <p class="text-sm">IATA | TOAB | HAAB | ATAB</p>
+          <p class="text-xs mt-2 text-blue-200">Credit Card Installment Facilities Available</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-8 pt-4 border-t border-blue-400">
+        <p class="text-sm">&copy; 2024 Cosmos Holiday. 12+ Years of Excellence in Travel Services.</p>
+        <p class="text-xs mt-2 text-blue-200">Your Trusted Partner for Student Travel & Tourism</p>
+      </div>
     </div>
   </footer>
 
@@ -104,7 +251,7 @@
           window.location.reload();
         };
       } else {
-        authBtn.textContent = 'Login';
+        authBtn.textContent = 'Customer Login';
         authBtn.onclick = () => window.location.href = 'auth.html';
       }
     });
@@ -129,5 +276,3 @@
 </body>
 
 </html>
-"
-"
