@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Cosmos Holiday</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white shadow-2xl sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <img src="logo.png" alt="Cosmos Holiday" class="h-14 w-auto">
+          <div>
+            <h1 class="text-2xl font-extrabold">COSMOS HOLIDAY</h1>
+            <span class="text-xs bg-yellow-400 text-gray-800 px-3 py-1 rounded-full font-bold">WE ARE FOR THE
+              STUDENTS</span>
+          </div>
+        </div>
+
+        <!-- Back to Home -->
+        <a href="index.html"
+          class="bg-white text-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-blue-50 transition-all">
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Profile Header -->
+      <div class="bg-white rounded-3xl shadow-2xl p-8 mb-8 border-4 border-yellow-400/30">
+        <div class="flex items-center gap-6">
+          <!-- Avatar -->
+          <div class="relative">
+            <div
+              class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-5xl font-bold shadow-xl">
+              <span id="userInitial">U</span>
+            </div>
+            <div class="absolute -bottom-2 -right-2 bg-green-500 w-8 h-8 rounded-full border-4 border-white"></div>
+          </div>
+
+          <!-- User Info -->
+          <div class="flex-1">
+            <h2 class="text-4xl font-bold text-gray-800 mb-2" id="userName">Loading...</h2>
+            <p class="text-gray-600 text-lg mb-4" id="userEmail">email@example.com</p>
+            <div class="flex gap-4">
+              <div class="bg-blue-100 px-4 py-2 rounded-lg">
+                <span class="text-blue-600 font-bold text-2xl" id="totalBookings">0</span>
+                <p class="text-blue-600 text-sm">Total Bookings</p>
+              </div>
+              <div class="bg-yellow-100 px-4 py-2 rounded-lg">
+                <span class="text-yellow-600 font-bold text-2xl" id="memberSince">2024</span>
+                <p class="text-yellow-600 text-sm">Member Since</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logout Button -->
+          <button id="logoutBtn"
+            class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl font-bold hover:from-red-600 hover:to-red-700 transition-all shadow-lg hover:scale-105">
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div class="flex border-b">
+          <button id="bookingsTab" class="flex-1 px-6 py-4 font-bold text-lg bg-blue-600 text-white transition-all">
+            📋 Booking History
+          </button>
+          <button id="settingsTab"
+            class="flex-1 px-6 py-4 font-bold text-lg text-gray-600 hover:bg-gray-50 transition-all">
+            ⚙️ Settings
+          </button>
+        </div>
+
+        <!-- Bookings Content -->
+        <div id="bookingsContent" class="p-8">
+          <h3 class="text-2xl font-bold mb-6 text-gray-800">Your Bookings</h3>
+          <div id="bookingsList">
+            <!-- Bookings will be loaded here -->
+            <div class="text-center py-12">
+              <div class="text-6xl mb-4">📦</div>
+              <p class="text-gray-500 text-lg">No bookings yet</p>
+              <p class="text-gray-400 mb-6">Start exploring our amazing packages!</p>
+              <a href="index.html#packages"
+                class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all shadow-lg">
+                Browse Packages
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Content -->
+        <div id="settingsContent" class="p-8 hidden">
+          <h3 class="text-2xl font-bold mb-6 text-gray-800">Account Settings</h3>
+
+          <form id="profileForm" class="space-y-6">
+            <!-- Full Name -->
+            <div class="bg-gray-50 p-6 rounded-xl">
+              <label class="block text-gray-700 font-bold mb-2">Full Name</label>
+              <input type="text" id="fullName" placeholder="Enter your full name"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+
+            <!-- Phone Number -->
+            <div class="bg-gray-50 p-6 rounded-xl">
+              <label class="block text-gray-700 font-bold mb-2">Phone Number</label>
+              <input type="tel" id="phoneNumber" placeholder="+880 1XXX-XXXXXX"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+
+            <!-- Gender -->
+            <div class="bg-gray-50 p-6 rounded-xl">
+              <label class="block text-gray-700 font-bold mb-2">Gender</label>
+              <select id="gender"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+            </div>
+
+            <!-- Email (Read-only) -->
+            <div class="bg-gray-50 p-6 rounded-xl">
+              <label class="block text-gray-700 font-bold mb-2">Email Address</label>
+              <input type="email" id="settingsEmail" readonly
+                class="w-full px-4 py-3 border rounded-lg bg-gray-100 cursor-not-allowed" value="email@example.com">
+              <p class="text-sm text-gray-500 mt-2">Email cannot be changed</p>
+            </div>
+
+            <!-- Save Button -->
+            <div class="flex gap-4">
+              <button type="submit"
+                class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg hover:scale-105">
+                💾 Save Changes
+              </button>
+              <button type="button" id="cancelBtn"
+                class="bg-gray-300 text-gray-700 px-8 py-3 rounded-xl font-bold hover:bg-gray-400 transition-all">
+                Cancel
+              </button>
+            </div>
+
+            <div id="saveStatus" class="text-center"></div>
+
+            <!-- Change Password -->
+            <div class="bg-yellow-50 p-6 rounded-xl border-2 border-yellow-200 mt-8">
+              <label class="block text-gray-700 font-bold mb-2">Change Password</label>
+              <button type="button" id="changePasswordBtn"
+                class="bg-yellow-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-600 transition-all">
+                🔒 Update Password
+              </button>
+              <p class="text-sm text-gray-600 mt-2">You'll receive a password reset email</p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Firebase & Profile Script -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Check if user is logged in
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is logged in
+        const email = user.email;
+        const username = email.split('@')[0];
+        const initial = username.charAt(0).toUpperCase();
+        const joinDate = new Date(user.metadata.creationTime).getFullYear();
+
+        document.getElementById('userName').textContent = username;
+        document.getElementById('userEmail').textContent = email;
+        document.getElementById('userInitial').textContent = initial;
+        document.getElementById('memberSince').textContent = joinDate;
+        document.getElementById('settingsEmail').value = email;
+
+        // Load bookings (mock data for now)
+        loadBookings();
+      } else {
+        // Not logged in, redirect to login
+        window.location.href = 'auth.html';
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      if (confirm('Are you sure you want to logout?')) {
+        await signOut(auth);
+        window.location.href = 'index.html';
+      }
+    });
+
+    // Tab switching
+    const bookingsTab = document.getElementById('bookingsTab');
+    const settingsTab = document.getElementById('settingsTab');
+    const bookingsContent = document.getElementById('bookingsContent');
+    const settingsContent = document.getElementById('settingsContent');
+
+    bookingsTab.addEventListener('click', () => {
+      bookingsTab.classList.add('bg-blue-600', 'text-white');
+      bookingsTab.classList.remove('text-gray-600');
+      settingsTab.classList.remove('bg-blue-600', 'text-white');
+      settingsTab.classList.add('text-gray-600');
+      bookingsContent.classList.remove('hidden');
+      settingsContent.classList.add('hidden');
+    });
+
+    settingsTab.addEventListener('click', () => {
+      settingsTab.classList.add('bg-blue-600', 'text-white');
+      settingsTab.classList.remove('text-gray-600');
+      bookingsTab.classList.remove('bg-blue-600', 'text-white');
+      bookingsTab.classList.add('text-gray-600');
+      settingsContent.classList.remove('hidden');
+      bookingsContent.classList.add('hidden');
+    });
+
+    // Load bookings (mock data - you can connect to Firestore later)
+    function loadBookings() {
+      // For now, show empty state
+      // In the future, fetch from Firestore
+      document.getElementById('totalBookings').textContent = '0';
+
+      // Load profile data from localStorage
+      loadProfileData();
+    }
+
+    // Load profile data
+    function loadProfileData() {
+      const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+      if (profileData.fullName) document.getElementById('fullName').value = profileData.fullName;
+      if (profileData.phoneNumber) document.getElementById('phoneNumber').value = profileData.phoneNumber;
+      if (profileData.gender) document.getElementById('gender').value = profileData.gender;
+    }
+
+    // Save profile form
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const profileData = {
+        fullName: document.getElementById('fullName').value,
+        phoneNumber: document.getElementById('phoneNumber').value,
+        gender: document.getElementById('gender').value
+      };
+
+      // Save to localStorage (later you can save to Firestore)
+      localStorage.setItem('profileData', JSON.stringify(profileData));
+
+      // Show success message
+      const saveStatus = document.getElementById('saveStatus');
+      saveStatus.innerHTML = `
+        <div class="bg-gradient-to-r from-green-400 to-green-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center justify-center gap-3 animate-pulse">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-bold">Profile updated successfully!</span>
+        </div>
+      `;
+
+      setTimeout(() => {
+        saveStatus.innerHTML = '';
+      }, 3000);
+    });
+
+    // Cancel button
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      loadProfileData();
+    });
+  </script>
+</body>
+
+</html>

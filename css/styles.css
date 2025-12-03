@@ -157,3 +157,13 @@ html {
 .animate-gradient {
     animation: gradient 3s ease infinite;
 }
+
+/* Rotating border animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
