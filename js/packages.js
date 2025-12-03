@@ -325,10 +325,7 @@ function createPackageCard(pkg) {
                 <img src="${pkg.image || 'https://via.placeholder.com/600x400/4169E1/FFFFFF?text=' + encodeURIComponent(pkg.name)}" 
                      alt="${pkg.name}" class="w-full h-full object-cover">
                 
-                <!-- Discount Badge -->
-                ${discount > 0 ? `<div class="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg z-10 animate-pulse">
-                    ${discount}% ${discountText}
-                </div>` : ''}
+
                 
                 <!-- University Badge -->
                 <div class="absolute top-4 left-4 z-10">

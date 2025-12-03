@@ -6,64 +6,322 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Cosmos Holiday</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-  <div class="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md">
-    <h2 class="text-3xl font-bold text-center mb-6">Welcome Back</h2>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
 
-    <!-- Toggle Buttons -->
-    <div class="flex mb-6 bg-gray-200 rounded-lg p-1">
-      <button id="loginTab" class="flex-1 py-2 rounded-lg bg-blue-600 text-white font-semibold">Login</button>
-      <button id="signupTab" class="flex-1 py-2 rounded-lg text-gray-700 font-semibold">Sign Up</button>
-    </div>
+      <!-- Left Side - Promotional Section -->
+      <div
+        class="bg-gradient-to-br from-blue-400 to-blue-600 p-12 flex flex-col items-center justify-center text-white relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        <div class="absolute bottom-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
 
-    <!-- Login Form -->
-    <form id="loginForm" class="space-y-4">
-      <div>
-        <label class="block text-gray-700 mb-2">Email</label>
-        <input type="email" id="loginEmail" required
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div class="relative z-10 text-center">
+          <!-- Logo and Title -->
+          <!-- Animated Welcome Text -->
+          <h1 class="text-5xl font-bold mb-8 text-white animate-pulse"
+            style="font-style: italic; text-shadow: 0 0 20px rgba(255,255,255,0.3);">
+            Welcome to
+          </h1>
+
+          <!-- Animated Logo -->
+          <div class="mb-8 flex justify-center">
+            <div class="relative group">
+              <!-- Animated glow rings -->
+              <div class="absolute inset-0 bg-yellow-400/40 rounded-full blur-3xl scale-110 animate-pulse"></div>
+              <div class="absolute inset-0 bg-yellow-300/20 rounded-full blur-2xl scale-125 animate-ping opacity-75">
+              </div>
+              <!-- Logo with hover effect -->
+              <img src="logo.png" alt="Cosmos Holiday Logo"
+                class="h-44 w-auto drop-shadow-2xl relative z-10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+            </div>
+          </div>
+
+          <!-- Animated ONLINE PORTAL Badge -->
+          <div class="mb-8">
+            <div
+              class="bg-gradient-to-r from-yellow-400 via-white to-yellow-400 text-blue-600 px-8 py-3 rounded-full inline-block shadow-2xl animate-pulse hover:scale-110 transition-transform duration-300 cursor-pointer">
+              <span class="text-lg font-black">ONLINE PORTAL</span>
+            </div>
+          </div>
+
+          <!-- Animated Tagline Box -->
+          <div class="relative mx-8 mb-8 group cursor-pointer">
+            <!-- Animated border gradient -->
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-400 rounded-2xl blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse">
+            </div>
+            <!-- Content box -->
+            <div
+              class="relative bg-white rounded-2xl p-6 shadow-xl transform transition-all duration-300 group-hover:scale-105">
+              <p class="text-lg text-blue-600 font-semibold leading-relaxed">
+                ✈️ Get Air Ticket, Visa Support, Holiday Packages, Bus Ticket and more...
+              </p>
+              <!-- Animated shine effect -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl">
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
       </div>
-      <div>
-        <label class="block text-gray-700 mb-2">Password</label>
-        <input type="password" id="loginPassword" required
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+      <!-- Right Side - Login Form -->
+      <div class="p-12 flex flex-col justify-center">
+        <div class="max-w-md mx-auto w-full">
+          <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome to Portal</h2>
+          <p class="text-gray-500 mb-8">Cosmos Holiday</p>
+
+          <!-- Login Form -->
+          <form id="loginForm" class="space-y-5">
+            <div>
+              <label class="block text-gray-600 mb-2 text-sm">Email</label>
+              <input type="email" id="loginEmail" required placeholder="Enter your email"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+            </div>
+
+            <div>
+              <label class="block text-gray-600 mb-2 text-sm">Password</label>
+              <div class="relative">
+                <input type="password" id="loginPassword" required placeholder="Enter your password"
+                  class="w-full px-4 py-3 pr-24 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                <button type="button" id="toggleLoginPassword"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-yellow-400 hover:to-yellow-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">
+                  <span id="loginPasswordText">Show</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <span class="text-sm text-gray-600">Remember me</span>
+              </label>
+              <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-semibold">Forgot Password ?</a>
+            </div>
+
+            <button type="submit"
+              class="w-full relative group overflow-hidden py-4 rounded-xl font-bold text-lg transition-all duration-500 hover:scale-105">
+              <!-- Animated gradient background -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_100%] animate-gradient">
+              </div>
+
+              <!-- Glowing border effect -->
+              <div
+                class="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-yellow-400 via-pink-500 to-yellow-400 blur-lg -z-10">
+              </div>
+
+              <!-- Shine effect -->
+              <div
+                class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent">
+              </div>
+
+              <!-- Button text -->
+              <span class="relative z-10 text-white flex items-center justify-center gap-2">
+                <span>Log In</span>
+                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
+                  </path>
+                </svg>
+              </span>
+            </button>
+          </form>
+
+          <!-- Signup Form (Hidden by default) -->
+          <form id="signupForm" class="space-y-5 hidden">
+            <div>
+              <label class="block text-gray-600 mb-2 text-sm">Email</label>
+              <input type="email" id="signupEmail" required placeholder="Enter your email"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+            </div>
+
+            <div>
+              <label class="block text-gray-600 mb-2 text-sm">Password</label>
+              <div class="relative">
+                <input type="password" id="signupPassword" required placeholder="Create a password" minlength="6"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                <button type="button" id="toggleSignupPassword"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-all">
+                  <span id="signupPasswordIcon">👁️</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit"
+              class="w-full relative group overflow-hidden py-4 rounded-xl font-bold text-lg transition-all duration-500 hover:scale-105">
+              <!-- Animated gradient background -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_100%] animate-gradient">
+              </div>
+
+              <!-- Glowing border effect -->
+              <div
+                class="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-yellow-400 via-pink-500 to-yellow-400 blur-lg -z-10">
+              </div>
+
+              <!-- Shine effect -->
+              <div
+                class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent">
+              </div>
+
+              <!-- Button text -->
+              <span class="relative z-10 text-white flex items-center justify-center gap-2">
+                <span>Create Account</span>
+                <svg class="w-5 h-5 transform group-hover:rotate-90 transition-transform duration-300" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+              </span>
+            </button>
+          </form>
+
+          <div id="authStatus" class="mt-4 text-center"></div>
+
+          <!-- Toggle between Login/Signup -->
+          <div class="mt-6 text-center">
+            <span id="toggleText" class="text-sm text-gray-600">New User ? </span>
+            <button id="toggleBtn"
+              class="relative inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-blue-500 hover:to-blue-600 text-gray-800 hover:text-white px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">
+              <span>Register</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
+                </path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Guest Login -->
+          <div class="mt-4 text-center">
+            <button id="anonymousBtn" class="text-gray-600 hover:text-gray-800 text-sm font-semibold hover:underline">
+              Continue as Guest
+            </button>
+          </div>
+
+          <!-- Back to Home -->
+          <div class="mt-6 text-center">
+            <a href="index.html"
+              class="text-blue-600 hover:text-blue-700 font-semibold hover:underline flex items-center justify-center gap-2">
+              <span>←</span>
+              <span>Back to Home</span>
+            </a>
+          </div>
+        </div>
       </div>
-      <button type="submit"
-        class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-semibold">Login</button>
-    </form>
 
-    <!-- Signup Form -->
-    <form id="signupForm" class="space-y-4 hidden">
-      <div>
-        <label class="block text-gray-700 mb-2">Email</label>
-        <input type="email" id="signupEmail" required
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
-      <div>
-        <label class="block text-gray-700 mb-2">Password</label>
-        <input type="password" id="signupPassword" required
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
-      <button type="submit"
-        class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 font-semibold">Sign Up</button>
-    </form>
-
-    <!-- Anonymous Login -->
-    <div class="mt-4">
-      <button id="anonymousBtn"
-        class="w-full bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-700 font-semibold">Continue as Guest</button>
-    </div>
-
-    <div id="authStatus" class="mt-4 text-center"></div>
-
-    <div class="mt-6 text-center">
-      <a href="index.html" class="text-blue-600 hover:underline">Back to Home</a>
     </div>
   </div>
 
-  <script type="module" src="js/auth.js"></script>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const toggleText = document.getElementById('toggleText');
+    const anonymousBtn = document.getElementById('anonymousBtn');
+    const authStatus = document.getElementById('authStatus');
+
+    // Password visibility toggle elements
+    const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+    const loginPasswordInput = document.getElementById('loginPassword');
+    const loginPasswordText = document.getElementById('loginPasswordText');
+
+    const toggleSignupPassword = document.getElementById('toggleSignupPassword');
+    const signupPasswordInput = document.getElementById('signupPassword');
+    const signupPasswordIcon = document.getElementById('signupPasswordIcon');
+
+    let isLoginMode = true;
+
+    // Toggle login password visibility
+    if (toggleLoginPassword) {
+      toggleLoginPassword.addEventListener('click', () => {
+        if (loginPasswordInput.type === 'password') {
+          loginPasswordInput.type = 'text';
+          loginPasswordText.textContent = 'Hide';
+        } else {
+          loginPasswordInput.type = 'password';
+          loginPasswordText.textContent = 'Show';
+        }
+      });
+    }
+
+    // Toggle signup password visibility
+    if (toggleSignupPassword) {
+      toggleSignupPassword.addEventListener('click', () => {
+        if (signupPasswordInput.type === 'password') {
+          signupPasswordInput.type = 'text';
+          signupPasswordIcon.textContent = '🙈';
+        } else {
+          signupPasswordInput.type = 'password';
+          signupPasswordIcon.textContent = '👁️';
+        }
+      });
+    }
+
+    // Toggle between Login and Signup
+    toggleBtn.addEventListener('click', () => {
+      isLoginMode = !isLoginMode;
+
+      if (isLoginMode) {
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+        toggleText.textContent = '— New User ? ';
+        toggleBtn.textContent = 'Register';
+      } else {
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        toggleText.textContent = '— Already have an account ? ';
+        toggleBtn.textContent = 'Login';
+      }
+    });
+
+    // Login
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+
+      authStatus.innerHTML = '<p class="text-green-600 font-semibold">✅ Login successful!</p>';
+
+      localStorage.setItem('user', JSON.stringify({ email, loggedIn: true }));
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    });
+
+    // Signup
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signupEmail').value;
+
+      authStatus.innerHTML = '<p class="text-green-600 font-semibold">✅ Account created successfully!</p>';
+
+      localStorage.setItem('user', JSON.stringify({ email, loggedIn: true }));
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    });
+
+    // Guest login
+    anonymousBtn.addEventListener('click', () => {
+      authStatus.innerHTML = '<p class="text-green-600 font-semibold">✅ Signed in as guest!</p>';
+
+      localStorage.setItem('user', JSON.stringify({ email: 'guest@cosmos.com', loggedIn: true, isGuest: true }));
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    });
+  </script>
 </body>
 
 </html>
