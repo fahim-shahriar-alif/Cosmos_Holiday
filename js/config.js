@@ -3,14 +3,14 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// TODO: Replace with your Firebase config
+// Your Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+    authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+    projectId: "cosmos-holiday-563eb",
+    storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+    messagingSenderId: "176431895536",
+    appId: "1:176431895536:web:4746ef3299b77e043a0335"
 };
 
 // Initialize Firebase

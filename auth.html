@@ -207,12 +207,7 @@
             </button>
           </div>
 
-          <!-- Guest Login -->
-          <div class="mt-4 text-center">
-            <button id="anonymousBtn" class="text-gray-600 hover:text-gray-800 text-sm font-semibold hover:underline">
-              Continue as Guest
-            </button>
-          </div>
+
 
           <!-- Back to Home -->
           <div class="mt-6 text-center">
@@ -232,12 +227,28 @@
     </div>
   </div>
 
-  <script>
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
     const toggleBtn = document.getElementById('toggleBtn');
-    const toggleText = document.getElementById('toggleText');
-    const anonymousBtn = document.getElementById('anonymousBtn');
     const authStatus = document.getElementById('authStatus');
 
     // Password visibility toggle elements
@@ -300,43 +311,94 @@
       }
     });
 
-    // Login
-    loginForm.addEventListener('submit', (e) => {
+    // Login with Firebase
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
 
-      authStatus.innerHTML = '<p class="text-green-600 font-semibold">✅ Login successful!</p>';
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        authStatus.innerHTML = `
+          <div class="bg-gradient-to-r from-green-400 to-green-500 text-white px-6 py-4 rounded-xl shadow-lg animate-pulse flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="font-bold text-lg">Login successful! Redirecting...</span>
+          </div>
+        `;
 
-      localStorage.setItem('user', JSON.stringify({ email, loggedIn: true }));
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+      } catch (error) {
+        let errorMessage = 'Invalid email or password';
 
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1000);
+        // Custom error messages
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+          errorMessage = 'Invalid email or password';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'Please enter a valid email address';
+        } else if (error.code === 'auth/too-many-requests') {
+          errorMessage = 'Too many failed attempts. Please try again later';
+        } else if (error.code === 'auth/network-request-failed') {
+          errorMessage = 'Network error. Please check your connection';
+        }
+
+        authStatus.innerHTML = `
+          <div class="bg-gradient-to-r from-red-400 to-red-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="font-bold">${errorMessage}</span>
+          </div>
+        `;
+      }
     });
 
-    // Signup
-    signupForm.addEventListener('submit', (e) => {
+    // Signup with Firebase
+    signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
 
-      authStatus.innerHTML = '<p class="text-green-600 font-semibold">✅ Account created successfully!</p>';
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        authStatus.innerHTML = `
+          <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white px-6 py-4 rounded-xl shadow-lg animate-pulse flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="font-bold text-lg">Account created! Welcome aboard!</span>
+          </div>
+        `;
 
-      localStorage.setItem('user', JSON.stringify({ email, loggedIn: true }));
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+      } catch (error) {
+        let errorMessage = 'Failed to create account';
 
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1000);
-    });
+        // Custom error messages
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'This email is already registered. Please login instead';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'Please enter a valid email address';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = 'Password must be at least 6 characters';
+        } else if (error.code === 'auth/network-request-failed') {
+          errorMessage = 'Network error. Please check your connection';
+        }
 
-    // Guest login
-    anonymousBtn.addEventListener('click', () => {
-      authStatus.innerHTML = '<p class="text-green-600 font-semibold">✅ Signed in as guest!</p>';
-
-      localStorage.setItem('user', JSON.stringify({ email: 'guest@cosmos.com', loggedIn: true, isGuest: true }));
-
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1000);
+        authStatus.innerHTML = `
+          <div class="bg-gradient-to-r from-red-400 to-red-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center justify-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="font-bold">${errorMessage}</span>
+          </div>
+        `;
+      }
     });
   </script>
 </body>

@@ -368,7 +368,24 @@
   <!-- Load i18n and Packages -->
   <script src="js/i18n.js"></script>
   <script type="module" src="js/packages.js"></script>
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
     // Initialize language
     initLanguage();
 
@@ -376,25 +393,28 @@
     const langToggle = document.getElementById('langToggle');
     langToggle.onclick = toggleLanguage;
 
-    // Check if user is logged in
-    const user = JSON.parse(localStorage.getItem('user'));
+    // Check authentication state
     const authBtn = document.getElementById('authBtn');
 
-    if (user && user.loggedIn) {
-      // User is logged in
-      authBtn.textContent = user.isGuest ? '👤 Guest' : '👤 ' + user.email.split('@')[0];
-      authBtn.onclick = () => {
-        if (confirm('Do you want to logout?')) {
-          localStorage.removeItem('user');
-          window.location.reload();
-        }
-      };
-    } else {
-      // User is not logged in
-      authBtn.onclick = () => {
-        window.location.href = 'auth.html';
-      };
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is logged in
+        const username = user.email.split('@')[0];
+        authBtn.textContent = '👤 ' + username;
+        authBtn.onclick = async () => {
+          if (confirm('Do you want to logout?')) {
+            await signOut(auth);
+            window.location.reload();
+          }
+        };
+      } else {
+        // User is not logged in
+        authBtn.textContent = 'Login';
+        authBtn.onclick = () => {
+          window.location.href = 'auth.html';
+        };
+      }
+    });
 
     // Simple contact form (no EmailJS for now)
     document.getElementById('contactForm').addEventListener('submit', (e) => {
