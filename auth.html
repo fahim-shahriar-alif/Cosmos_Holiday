@@ -100,12 +100,11 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center">
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                 <span class="text-sm text-gray-600">Remember me</span>
               </label>
-              <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-semibold">Forgot Password ?</a>
             </div>
 
             <button type="submit"
@@ -126,14 +125,7 @@
               </div>
 
               <!-- Button text -->
-              <span class="relative z-10 text-white flex items-center justify-center gap-2">
-                <span>Log In</span>
-                <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none"
-                  stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
-                  </path>
-                </svg>
-              </span>
+              <span class="relative z-10 text-white">Log In</span>
             </button>
           </form>
 
@@ -149,10 +141,10 @@
               <label class="block text-gray-600 mb-2 text-sm">Password</label>
               <div class="relative">
                 <input type="password" id="signupPassword" required placeholder="Create a password" minlength="6"
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                  class="w-full px-4 py-3 pr-24 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
                 <button type="button" id="toggleSignupPassword"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-all">
-                  <span id="signupPasswordIcon">👁️</span>
+                  class="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-yellow-400 hover:to-yellow-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">
+                  <span id="signupPasswordText">Show</span>
                 </button>
               </div>
             </div>
@@ -175,13 +167,7 @@
               </div>
 
               <!-- Button text -->
-              <span class="relative z-10 text-white flex items-center justify-center gap-2">
-                <span>Create Account</span>
-                <svg class="w-5 h-5 transform group-hover:rotate-90 transition-transform duration-300" fill="none"
-                  stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                </svg>
-              </span>
+              <span class="relative z-10 text-white">Create Account</span>
             </button>
           </form>
 
@@ -189,14 +175,35 @@
 
           <!-- Toggle between Login/Signup -->
           <div class="mt-6 text-center">
-            <span id="toggleText" class="text-sm text-gray-600">New User ? </span>
             <button id="toggleBtn"
-              class="relative inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-blue-500 hover:to-blue-600 text-gray-800 hover:text-white px-6 py-2 rounded-full font-bold text-sm transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">
-              <span>Register</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
-                </path>
-              </svg>
+              class="group relative inline-block bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-blue-500 hover:to-blue-600 text-gray-800 hover:text-white py-3 px-6 rounded-full font-bold text-sm transition-all duration-500 shadow-lg hover:shadow-2xl overflow-hidden min-w-[200px] hover:scale-110">
+
+              <!-- Default text - slides up and fades out -->
+              <span
+                class="relative z-10 inline-flex items-center justify-center gap-2 transform translate-y-0 group-hover:-translate-y-8 opacity-100 group-hover:opacity-0 transition-all duration-300">
+                <span id="defaultText" class="whitespace-nowrap">New User ?</span>
+              </span>
+
+              <!-- Hover text - slides up from bottom -->
+              <span
+                class="absolute inset-0 z-10 flex items-center justify-center gap-2 transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <span id="hoverText" class="font-black whitespace-nowrap">Register</span>
+                <svg class="w-5 h-5 transform group-hover:rotate-12 transition-transform duration-500" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
+                  </path>
+                </svg>
+              </span>
+
+              <!-- Animated background pulse -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-yellow-300 to-yellow-400 opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-500">
+              </div>
+
+              <!-- Shine effect -->
+              <div
+                class="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent">
+              </div>
             </button>
           </div>
 
@@ -210,8 +217,12 @@
           <!-- Back to Home -->
           <div class="mt-6 text-center">
             <a href="index.html"
-              class="text-blue-600 hover:text-blue-700 font-semibold hover:underline flex items-center justify-center gap-2">
-              <span>←</span>
+              class="group inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+              <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                </path>
+              </svg>
               <span>Back to Home</span>
             </a>
           </div>
@@ -236,7 +247,7 @@
 
     const toggleSignupPassword = document.getElementById('toggleSignupPassword');
     const signupPasswordInput = document.getElementById('signupPassword');
-    const signupPasswordIcon = document.getElementById('signupPasswordIcon');
+    const signupPasswordText = document.getElementById('signupPasswordText');
 
     let isLoginMode = true;
 
@@ -258,28 +269,34 @@
       toggleSignupPassword.addEventListener('click', () => {
         if (signupPasswordInput.type === 'password') {
           signupPasswordInput.type = 'text';
-          signupPasswordIcon.textContent = '🙈';
+          signupPasswordText.textContent = 'Hide';
         } else {
           signupPasswordInput.type = 'password';
-          signupPasswordIcon.textContent = '👁️';
+          signupPasswordText.textContent = 'Show';
         }
       });
     }
+
+    // Get button text elements
+    const defaultText = document.getElementById('defaultText');
+    const hoverText = document.getElementById('hoverText');
 
     // Toggle between Login and Signup
     toggleBtn.addEventListener('click', () => {
       isLoginMode = !isLoginMode;
 
       if (isLoginMode) {
+        // Switch to Login mode
         loginForm.classList.remove('hidden');
         signupForm.classList.add('hidden');
-        toggleText.textContent = '— New User ? ';
-        toggleBtn.textContent = 'Register';
+        defaultText.textContent = 'New User ?';
+        hoverText.textContent = 'Register';
       } else {
+        // Switch to Signup mode
         signupForm.classList.remove('hidden');
         loginForm.classList.add('hidden');
-        toggleText.textContent = '— Already have an account ? ';
-        toggleBtn.textContent = 'Login';
+        defaultText.textContent = 'Already Have an Account ?';
+        hoverText.textContent = 'Login';
       }
     });
 
