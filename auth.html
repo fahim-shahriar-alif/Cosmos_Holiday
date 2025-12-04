@@ -176,8 +176,6 @@
             </button>
           </form>
 
-          <div id="authStatus" class="mt-4 text-center"></div>
-
           <!-- Toggle between Login/Signup -->
           <div class="mt-6 text-center">
             <button id="toggleBtn"
@@ -324,40 +322,9 @@
 
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        authStatus.innerHTML = `
-          <div class="bg-gradient-to-r from-green-400 to-green-500 text-white px-6 py-4 rounded-xl shadow-lg animate-pulse flex items-center justify-center gap-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="font-bold text-lg">Login successful! Redirecting...</span>
-          </div>
-        `;
-
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
+        window.location.href = 'index.html';
       } catch (error) {
-        let errorMessage = 'Invalid email or password';
-
-        // Custom error messages
-        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-          errorMessage = 'Invalid email or password';
-        } else if (error.code === 'auth/invalid-email') {
-          errorMessage = 'Please enter a valid email address';
-        } else if (error.code === 'auth/too-many-requests') {
-          errorMessage = 'Too many failed attempts. Please try again later';
-        } else if (error.code === 'auth/network-request-failed') {
-          errorMessage = 'Network error. Please check your connection';
-        }
-
-        authStatus.innerHTML = `
-          <div class="bg-gradient-to-r from-red-400 to-red-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center justify-center gap-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="font-bold">${errorMessage}</span>
-          </div>
-        `;
+        console.error('Login error:', error);
       }
     });
 
@@ -369,40 +336,9 @@
 
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        authStatus.innerHTML = `
-          <div class="bg-gradient-to-r from-blue-400 to-purple-500 text-white px-6 py-4 rounded-xl shadow-lg animate-pulse flex items-center justify-center gap-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="font-bold text-lg">Account created! Welcome aboard!</span>
-          </div>
-        `;
-
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
+        window.location.href = 'index.html';
       } catch (error) {
-        let errorMessage = 'Failed to create account';
-
-        // Custom error messages
-        if (error.code === 'auth/email-already-in-use') {
-          errorMessage = 'This email is already registered. Please login instead';
-        } else if (error.code === 'auth/invalid-email') {
-          errorMessage = 'Please enter a valid email address';
-        } else if (error.code === 'auth/weak-password') {
-          errorMessage = 'Password must be at least 6 characters';
-        } else if (error.code === 'auth/network-request-failed') {
-          errorMessage = 'Network error. Please check your connection';
-        }
-
-        authStatus.innerHTML = `
-          <div class="bg-gradient-to-r from-red-400 to-red-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center justify-center gap-3">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span class="font-bold">${errorMessage}</span>
-          </div>
-        `;
+        console.error('Signup error:', error);
       }
     });
   </script>

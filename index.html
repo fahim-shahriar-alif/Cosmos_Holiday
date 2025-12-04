@@ -13,6 +13,14 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init('vbFmdzoBk2nIYzBKb');
+    })();
+  </script>
 </head>
 
 <body class="bg-gray-50">
@@ -356,7 +364,6 @@
               class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 font-semibold text-lg transition-all shadow-lg hover:shadow-xl mt-6"
               data-i18n="contact.send">Send Message</button>
           </form>
-          <div id="contactStatus" class="mt-4 text-center"></div>
         </div>
 
         <!-- Right Side: Contact Info -->
@@ -549,24 +556,35 @@
       }
     });
 
-    // Simple contact form (no EmailJS for now)
+    // EmailJS Contact Form Handler
     document.getElementById('contactForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      const status = document.getElementById('contactStatus');
-      const formData = new FormData(e.target);
+      const submitBtn = e.target.querySelector('button[type="submit"]');
 
-      // Show success message with translation
-      const successMsg = typeof t === 'function' ? t('contact.success') : 'Message sent successfully!';
-      status.innerHTML = `<p class="text-green-600 font-semibold">${successMsg}</p>`;
+      // Disable button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="animate-pulse">Sending...</span>';
 
-      // Log form data to console for testing
-      console.log('Contact Form Data:', {
-        name: formData.get('from_name'),
-        email: formData.get('from_email'),
-        message: formData.get('message')
-      });
+      // Send email using EmailJS
+      emailjs.sendForm('service_2w5vla8', 'template_zehekwd', e.target)
+        .then(() => {
+          // Success - just reset form silently
+          e.target.reset();
 
-      e.target.reset();
+          // Re-enable button
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitBtn.getAttribute('data-i18n') === 'contact.send' ?
+            (typeof t === 'function' ? t('contact.send') : 'Send Message') : 'Send Message';
+        })
+        .catch((error) => {
+          // Error - log to console only
+          console.error('EmailJS Error:', error);
+
+          // Re-enable button
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitBtn.getAttribute('data-i18n') === 'contact.send' ?
+            (typeof t === 'function' ? t('contact.send') : 'Send Message') : 'Send Message';
+        });
     });
 
     // Animated Counter for About Section
