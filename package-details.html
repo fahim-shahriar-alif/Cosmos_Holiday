@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Package Details - Cosmos Holiday</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white shadow-2xl sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <img src="logo.png" alt="Cosmos Holiday" class="h-14 w-auto">
+          <div>
+            <h1 class="text-2xl font-extrabold">COSMOS HOLIDAY</h1>
+            <span class="text-xs bg-yellow-400 text-gray-800 px-3 py-1 rounded-full font-bold">WE ARE FOR THE
+              STUDENTS</span>
+          </div>
+        </div>
+
+        <!-- Back Button -->
+        <a href="index.html"
+          class="bg-white text-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-blue-50 transition-all">
+          ← Back to Home
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Package Details Content -->
+  <div class="container mx-auto px-4 py-8">
+    <div id="packageContent" class="max-w-6xl mx-auto">
+      <!-- Loading state -->
+      <div class="text-center py-20">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto"></div>
+        <p class="text-gray-600 mt-4">Loading package details...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white py-6 mt-16">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-sm">&copy; 2024 Cosmos Holiday. Your Trusted Partner for Student Travel & Tourism</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    // Import packages from packages.js
+    import { staticPackages } from './js/packages.js';
+
+    // Get package ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const packageId = urlParams.get('id');
+
+    // Find package
+    const pkg = staticPackages.find(p => p.id === packageId);
+
+    const container = document.getElementById('packageContent');
+
+    if (!pkg) {
+      container.innerHTML = `
+        <div class="text-center py-20">
+          <div class="text-6xl mb-4">😕</div>
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">Package Not Found</h2>
+          <p class="text-gray-600 mb-8">The package you're looking for doesn't exist.</p>
+          <a href="index.html" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-all">
+            Go Back Home
+          </a>
+        </div>
+      `;
+    } else {
+      // Render package details
+      const universityNames = {
+        'dhaka': 'University of Dhaka',
+        'buet': 'BUET',
+        'nsu': 'NSU',
+        'brac': 'BRAC University',
+        'iub': 'IUB',
+        'aiub': 'AIUB'
+      };
+      const universityName = universityNames[pkg.university] || 'General';
+
+      container.innerHTML = `
+        <!-- Hero Image -->
+        <div class="relative h-96 rounded-3xl overflow-hidden shadow-2xl mb-8">
+          <img src="${pkg.image}" alt="${pkg.name}" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-8">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="bg-yellow-400 text-gray-800 px-4 py-2 rounded-full text-sm font-bold">
+                🎓 ${universityName}
+              </span>
+              ${pkg.discount ? `<span class="bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                ${pkg.discount}% OFF
+              </span>` : ''}
+            </div>
+            <h1 class="text-5xl font-bold text-white mb-2">${pkg.name}</h1>
+            <p class="text-xl text-white/90">${pkg.description}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- Main Content -->
+          <div class="lg:col-span-2 space-y-8">
+            <!-- Package Details -->
+            <div class="bg-white rounded-lg shadow p-6">
+              <h2 class="text-xl font-bold text-gray-800 mb-4">Package Details</h2>
+              <div class="text-gray-600 leading-relaxed whitespace-pre-line">
+                ${pkg.details || pkg.fullDescription || pkg.description || 'Package details coming soon. Please contact us for more information about this amazing tour!'}
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:col-span-1">
+            <!-- Package Info Card -->
+            <div class="bg-gradient-to-br from-blue-50 to-yellow-50 rounded-2xl shadow-lg p-6 mb-6 border-2 border-yellow-400">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-start gap-3">
+                  <div class="bg-blue-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-600 font-semibold">Duration</p>
+                    <p class="text-sm font-bold text-gray-800">${pkg.duration}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <div class="bg-yellow-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-600 font-semibold">Group Size</p>
+                    <p class="text-sm font-bold text-gray-800">${pkg.seats || 20} People</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <div class="bg-blue-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-600 font-semibold">Journey Date</p>
+                    <p class="text-sm font-bold text-gray-800">${pkg.date || '2026-01-15'}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <div class="bg-yellow-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-600 font-semibold">Minimum Age</p>
+                    <p class="text-sm font-bold text-gray-800">10 Years</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <div class="bg-blue-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-600 font-semibold">Tour Type</p>
+                    <p class="text-sm font-bold text-gray-800">${pkg.type === 'domestic' ? 'Domestic' : 'International'}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <div class="bg-yellow-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-600 font-semibold">Pickup From</p>
+                    <p class="text-sm font-bold text-gray-800">Dhaka</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Booking Form Card -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-yellow-400 sticky top-24">
+              <!-- Header -->
+              <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-white font-bold text-xl">Book Now</h3>
+                <p class="text-yellow-400 text-2xl font-extrabold">৳${pkg.price.toLocaleString()}</p>
+              </div>
+
+              <!-- Form -->
+              <div class="p-6 space-y-4">
+                <!-- Journey Date -->
+                <div class="flex items-center justify-between py-3 border-b">
+                  <span class="text-gray-600 font-semibold">Journey Date:</span>
+                  <span class="text-gray-800 font-bold">${pkg.date || '2026-01-15'}</span>
+                </div>
+
+                <!-- Adults Counter -->
+                <div class="flex items-center justify-between py-3 border-b">
+                  <div>
+                    <p class="text-gray-800 font-bold">Adults</p>
+                    <p class="text-xs text-gray-500">5+ Years</p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button onclick="decrementAdults()" class="bg-blue-600 hover:bg-blue-700 text-white w-8 h-8 rounded-full font-bold transition-all">-</button>
+                    <span id="adultsCount" class="text-xl font-bold text-gray-800 w-8 text-center">1</span>
+                    <button onclick="incrementAdults()" class="bg-blue-600 hover:bg-blue-700 text-white w-8 h-8 rounded-full font-bold transition-all">+</button>
+                  </div>
+                </div>
+
+                <!-- Couple Checkbox -->
+                <div class="flex items-center gap-2 py-3 border-b">
+                  <input type="checkbox" id="isCouple" onchange="handleCoupleChange()" class="w-4 h-4 text-blue-600 rounded">
+                  <label for="isCouple" class="text-gray-700 font-semibold">Are You Couple?</label>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600 font-semibold">Price:</span>
+                    <span id="basePrice" class="text-gray-800 font-bold">৳${pkg.price.toLocaleString()}</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-gray-600 font-semibold">Fee:</span>
+                    <span class="text-gray-800 font-bold">৳40</span>
+                  </div>
+                  <div class="flex items-center justify-between pt-2 border-t-2 border-gray-300">
+                    <span class="text-gray-800 font-bold text-lg">Total:</span>
+                    <span id="totalPrice" class="text-blue-600 font-extrabold text-2xl">৳${(pkg.price + 40).toLocaleString()}</span>
+                  </div>
+                </div>
+
+                <!-- Book Button -->
+                <button onclick="submitBooking('${pkg.id}')" 
+                        class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                  Book Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Booking form state
+    let adultsCount = 1;
+    const basePrice = pkg ? pkg.price : 0;
+    const fee = 40;
+
+    // Update total price
+    function updateTotal() {
+      const adults = adultsCount;
+      const subtotal = adults * basePrice;
+      const total = subtotal + fee;
+
+      document.getElementById('basePrice').textContent = `৳${subtotal.toLocaleString()}`;
+      document.getElementById('totalPrice').textContent = `৳${total.toLocaleString()}`;
+    }
+
+    // Handle couple checkbox
+    window.handleCoupleChange = function () {
+      const isCouple = document.getElementById('isCouple').checked;
+
+      if (isCouple) {
+        // Set adults to 2 when couple is checked
+        adultsCount = 2;
+        document.getElementById('adultsCount').textContent = adultsCount;
+        updateTotal();
+      } else {
+        // Reset to 1 when unchecked
+        adultsCount = 1;
+        document.getElementById('adultsCount').textContent = adultsCount;
+        updateTotal();
+      }
+    };
+
+    // Adults counter
+    window.incrementAdults = function () {
+      const isCouple = document.getElementById('isCouple').checked;
+
+      // If couple is checked, don't allow manual changes
+      if (isCouple) {
+        alert('Please uncheck "Are You Couple?" to manually adjust adults count.');
+        return;
+      }
+
+      adultsCount++;
+      document.getElementById('adultsCount').textContent = adultsCount;
+      updateTotal();
+    };
+
+    window.decrementAdults = function () {
+      const isCouple = document.getElementById('isCouple').checked;
+
+      // If couple is checked, don't allow manual changes
+      if (isCouple) {
+        alert('Please uncheck "Are You Couple?" to manually adjust adults count.');
+        return;
+      }
+
+      if (adultsCount > 1) {
+        adultsCount--;
+        document.getElementById('adultsCount').textContent = adultsCount;
+        updateTotal();
+      }
+    };
+
+    // Submit booking
+    window.submitBooking = function (packageId) {
+      const pkg = staticPackages.find(p => p.id === packageId);
+      const isCouple = document.getElementById('isCouple').checked;
+
+      const adults = adultsCount;
+      const subtotal = adults * basePrice;
+      const total = subtotal + fee;
+
+      alert(`🎉 Booking Request Submitted!\n\n📦 Package: ${pkg.name}\n📅 Date: ${pkg.date || '2026-01-15'}\n👥 Adults: ${adults}\n💑 Couple: ${isCouple ? 'Yes' : 'No'}\n💰 Total Amount: ৳${total.toLocaleString()}\n\n✅ Our team will contact you shortly for payment details and confirmation!`);
+
+      // Later: Send to Firebase or backend
+    };
+  </script>
+</body>
+
+</html>

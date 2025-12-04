@@ -1,5 +1,5 @@
 // Static packages data (no database needed for now)
-const staticPackages = [
+export const staticPackages = [
     // Inside Bangladesh (Domestic)
     {
         id: '1',
@@ -13,7 +13,29 @@ const staticPackages = [
         seats: 30,
         university: "dhaka",
         date: "2025-12-20",
-        image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop"
+        image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop",
+        details: `Experience the beauty of Cox's Bazar, home to the world's longest natural sea beach stretching over 120 km. Enjoy pristine sandy beaches, breathtaking sunsets, and fresh seafood. Perfect for students looking for a relaxing beach getaway with friends.
+
+Day 1: Arrival & Beach Visit
+Arrive at Cox's Bazar, check-in hotel, evening beach walk and sunset viewing
+
+Day 2: Inani Beach & Himchari
+Visit Inani Beach, Himchari National Park, and marine drive
+
+Day 3: Departure
+Morning free time, checkout and departure
+
+What's Included:
+✓ Hotel accommodation
+✓ Breakfast & dinner
+✓ Transportation
+✓ Tour guide
+✓ Entry tickets
+
+What's Excluded:
+✗ Lunch
+✗ Personal expenses
+✗ Travel insurance`
     },
     {
         id: '2',
@@ -298,6 +320,9 @@ window.filterByUniversity = function(university) {
     
     // Reload packages with filter
     loadPackages(university);
+    
+    // Re-add click listeners after filtering
+    setTimeout(addPackageClickListeners, 100);
 };
 
 function createPackageCard(pkg) {
@@ -320,10 +345,10 @@ function createPackageCard(pkg) {
     const discountText = typeof t === 'function' ? t('packages.discount') : 'OFF';
     
     return `
-        <div class="package-card bg-white rounded-2xl shadow-xl overflow-hidden group">
+        <div class="package-card bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer" onclick="window.location.href='package-details.html?id=${pkg.id}'" data-package-id="${pkg.id}">
             <div class="relative h-64 overflow-hidden">
                 <img src="${pkg.image || 'https://via.placeholder.com/600x400/4169E1/FFFFFF?text=' + encodeURIComponent(pkg.name)}" 
-                     alt="${pkg.name}" class="w-full h-full object-cover">
+                     alt="${pkg.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                 
 
                 
@@ -361,7 +386,7 @@ function createPackageCard(pkg) {
                         </p>
                         <p class="text-xs text-gray-500">${currency}</p>
                     </div>
-                    <button onclick="bookPackage('${pkg.id}')" 
+                    <button onclick="event.stopPropagation(); bookPackage('${pkg.id}')" 
                             class="bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 font-bold text-sm group-hover:shadow-blue-500/50">
                         ${bookText} →
                     </button>
@@ -370,6 +395,15 @@ function createPackageCard(pkg) {
         </div>
     `;
 }
+
+// View package details
+window.viewPackageDetails = function(packageId) {
+    console.log('Navigating to package:', packageId);
+    window.location.href = `package-details.html?id=${packageId}`;
+};
+
+// Make sure function is available
+console.log('viewPackageDetails function loaded:', typeof window.viewPackageDetails);
 
 window.filterPackages = function(category) {
     alert(`Filtering ${category} packages - Feature coming soon!`);
@@ -387,7 +421,39 @@ window.filterPackages = function(category) {
     alert(`Filtering ${category} packages - Feature coming soon!`);
 };
 
+// Add click event listeners to package cards
+function addPackageClickListeners() {
+    const cards = document.querySelectorAll('.package-card');
+    console.log('Adding click listeners to', cards.length, 'cards');
+    
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            console.log('Card clicked!', e.target);
+            
+            // Don't navigate if clicking the book button
+            if (e.target.closest('button')) {
+                console.log('Button clicked, not navigating');
+                return;
+            }
+            
+            const packageId = this.getAttribute('data-package-id');
+            console.log('Package ID:', packageId);
+            
+            if (packageId) {
+                console.log('Navigating to package-details.html?id=' + packageId);
+                window.location.href = `package-details.html?id=${packageId}`;
+            }
+        });
+    });
+}
+
 // Load packages on page load
 if (document.getElementById('insideBangladeshPackages') || document.getElementById('outsideBangladeshPackages')) {
+    console.log('Loading packages...');
     loadPackages();
+    // Add click listeners after packages are loaded
+    setTimeout(() => {
+        console.log('Adding click listeners...');
+        addPackageClickListeners();
+    }, 100);
 }
