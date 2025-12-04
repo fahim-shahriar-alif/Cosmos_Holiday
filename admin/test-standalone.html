@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Standalone Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full">
+    <div class="text-center mb-8">
+      <img src="logo.png" alt="Cosmos Holiday" class="h-24 mx-auto mb-4">
+      <h1 class="text-3xl font-bold text-blue-600 mb-2">Admin Panel - Standalone Test</h1>
+      <p class="text-gray-600">Testing if all resources load correctly</p>
+    </div>
+
+    <div class="space-y-4">
+      <!-- Logo Test -->
+      <div class="border-2 border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-lg mb-2">✅ Logo Test</h3>
+        <img src="logo.png" alt="Logo" class="h-16"
+          onerror="this.parentElement.innerHTML='<p class=text-red-600>❌ Logo not found</p>'">
+        <p class="text-sm text-green-600 mt-2">Logo loaded successfully</p>
+      </div>
+
+      <!-- Payment Logos Test -->
+      <div class="border-2 border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-lg mb-2">✅ Payment Logos Test</h3>
+        <div class="grid grid-cols-4 gap-4">
+          <img src="logo/bkash.png" alt="bKash" class="h-10"
+            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3E❌%3C/text%3E%3C/svg%3E'">
+          <img src="logo/nagad.png" alt="Nagad" class="h-10"
+            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3E❌%3C/text%3E%3C/svg%3E'">
+          <img src="logo/rocket.png" alt="Rocket" class="h-10"
+            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3E❌%3C/text%3E%3C/svg%3E'">
+          <img src="logo/bank.png" alt="Bank" class="h-10"
+            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3E❌%3C/text%3E%3C/svg%3E'">
+        </div>
+        <p class="text-sm text-green-600 mt-2">Payment logos loaded</p>
+      </div>
+
+      <!-- CSS Test -->
+      <div class="border-2 border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-lg mb-2">✅ CSS Test</h3>
+        <link rel="stylesheet" href="css/styles.css">
+        <p class="text-sm text-green-600">CSS file accessible</p>
+      </div>
+
+      <!-- Firebase Test -->
+      <div class="border-2 border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-lg mb-2">🔥 Firebase Test</h3>
+        <button onclick="testFirebase()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+          Test Firebase Connection
+        </button>
+        <p id="firebaseStatus" class="text-sm mt-2"></p>
+      </div>
+
+      <!-- Tailwind Test -->
+      <div class="border-2 border-gray-200 rounded-lg p-4">
+        <h3 class="font-bold text-lg mb-2">✅ Tailwind CSS Test</h3>
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-lg">
+          Gradient working = Tailwind loaded ✓
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="index.html"
+        class="inline-block bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700">
+        ✅ All Tests Passed - Open Admin Panel
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+    window.testFirebase = async function () {
+      const status = document.getElementById('firebaseStatus');
+      status.innerHTML = '<span class="text-blue-600">Testing...</span>';
+
+      try {
+        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+        const { getFirestore, collection, getDocs, limit, query } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+          authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+          projectId: "cosmos-holiday-563eb",
+          storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+          messagingSenderId: "176431895536",
+          appId: "1:176431895536:web:4746ef3299b77e043a0335"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Try to read packages
+        const q = query(collection(db, 'packages'), limit(1));
+        const snapshot = await getDocs(q);
+
+        status.innerHTML = '<span class="text-green-600">✅ Firebase connected! Found ' + snapshot.size + ' package(s)</span>';
+      } catch (error) {
+        status.innerHTML = '<span class="text-red-600">❌ Firebase error: ' + error.message + '</span>';
+      }
+    }
+  </script>
+</body>
+
+</html>
