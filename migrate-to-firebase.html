@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Migrate Packages to Firebase</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-8">
+  <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+    <h1 class="text-3xl font-bold mb-4">🔥 Migrate Packages to Firebase</h1>
+    <p class="text-gray-600 mb-6">This will upload all 18 packages from your static data to Firebase Firestore.</p>
+
+    <div id="status" class="mb-6">
+      <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+        <p class="font-bold">Ready to migrate!</p>
+        <p class="text-sm">Click the button below to start the migration.</p>
+      </div>
+    </div>
+
+    <button onclick="migratePackages()" id="migrateBtn"
+      class="w-full bg-blue-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-blue-700 mb-4">
+      🚀 Start Migration
+    </button>
+
+    <div id="progress" class="hidden">
+      <div class="bg-gray-200 rounded-full h-4 mb-4">
+        <div id="progressBar" class="bg-blue-600 h-4 rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+      <p id="progressText" class="text-center text-gray-600"></p>
+    </div>
+
+    <div id="results" class="mt-6"></div>
+
+    <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700">
+      <p class="font-bold">⚠️ Important:</p>
+      <ul class="text-sm list-disc list-inside mt-2">
+        <li>Run this script only ONCE</li>
+        <li>Make sure Firestore rules are updated</li>
+        <li>After migration, packages will load from Firebase</li>
+        <li>You can delete this file after migration</li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { staticPackages } from './js/packages.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.migratePackages = async function () {
+      const statusDiv = document.getElementById('status');
+      const progressDiv = document.getElementById('progress');
+      const progressBar = document.getElementById('progressBar');
+      const progressText = document.getElementById('progressText');
+      const resultsDiv = document.getElementById('results');
+      const migrateBtn = document.getElementById('migrateBtn');
+
+      // Disable button
+      migrateBtn.disabled = true;
+      migrateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      // Show progress
+      progressDiv.classList.remove('hidden');
+
+      // Check if packages already exist
+      const existingPackages = await getDocs(collection(db, 'packages'));
+
+      if (existingPackages.size > 0) {
+        statusDiv.innerHTML = `
+          <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+            <p class="font-bold">⚠️ Warning!</p>
+            <p class="text-sm">Firebase already has ${existingPackages.size} packages. Do you want to add more?</p>
+            <button onclick="location.reload()" class="mt-2 bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">
+              Cancel
+            </button>
+            <button onclick="continueAnyway()" class="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 ml-2">
+              Continue Anyway
+            </button>
+          </div>
+        `;
+        migrateBtn.disabled = false;
+        migrateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        progressDiv.classList.add('hidden');
+        return;
+      }
+
+      await performMigration();
+    };
+
+    window.continueAnyway = async function () {
+      await performMigration();
+    };
+
+    async function performMigration() {
+      const statusDiv = document.getElementById('status');
+      const progressBar = document.getElementById('progressBar');
+      const progressText = document.getElementById('progressText');
+      const resultsDiv = document.getElementById('results');
+
+      statusDiv.innerHTML = `
+        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4">
+          <p class="font-bold">🔄 Migration in progress...</p>
+          <p class="text-sm">Please wait, uploading packages to Firebase...</p>
+        </div>
+      `;
+
+      let successCount = 0;
+      let errorCount = 0;
+      const errors = [];
+
+      for (let i = 0; i < staticPackages.length; i++) {
+        const pkg = staticPackages[i];
+        const progress = ((i + 1) / staticPackages.length) * 100;
+
+        progressBar.style.width = progress + '%';
+        progressText.textContent = `Uploading package ${i + 1} of ${staticPackages.length}: ${pkg.name}`;
+
+        try {
+          // Remove the 'id' field and add it as document data
+          const { id, ...packageData } = pkg;
+
+          await addDoc(collection(db, 'packages'), {
+            ...packageData,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          });
+
+          successCount++;
+        } catch (error) {
+          errorCount++;
+          errors.push({ package: pkg.name, error: error.message });
+          console.error('Error uploading package:', pkg.name, error);
+        }
+
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      // Show results
+      statusDiv.innerHTML = `
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4">
+          <p class="font-bold">✅ Migration Complete!</p>
+          <p class="text-sm mt-2">Successfully uploaded ${successCount} packages to Firebase.</p>
+          ${errorCount > 0 ? `<p class="text-sm text-red-600 mt-1">Failed: ${errorCount} packages</p>` : ''}
+        </div>
+      `;
+
+      resultsDiv.innerHTML = `
+        <div class="bg-white border rounded-lg p-4">
+          <h3 class="font-bold text-lg mb-2">📊 Migration Summary:</h3>
+          <ul class="space-y-2">
+            <li class="flex justify-between">
+              <span>Total Packages:</span>
+              <span class="font-bold">${staticPackages.length}</span>
+            </li>
+            <li class="flex justify-between text-green-600">
+              <span>Successfully Uploaded:</span>
+              <span class="font-bold">${successCount}</span>
+            </li>
+            ${errorCount > 0 ? `
+            <li class="flex justify-between text-red-600">
+              <span>Failed:</span>
+              <span class="font-bold">${errorCount}</span>
+            </li>
+            ` : ''}
+          </ul>
+
+          ${errors.length > 0 ? `
+          <div class="mt-4 p-3 bg-red-50 rounded">
+            <p class="font-bold text-red-600 mb-2">Errors:</p>
+            <ul class="text-sm text-red-600 list-disc list-inside">
+              ${errors.map(e => `<li>${e.package}: ${e.error}</li>`).join('')}
+            </ul>
+          </div>
+          ` : ''}
+
+          <div class="mt-4 p-3 bg-blue-50 rounded">
+            <p class="font-bold text-blue-600 mb-2">✅ Next Steps:</p>
+            <ol class="text-sm text-blue-600 list-decimal list-inside space-y-1">
+              <li>Refresh your main website (index.html)</li>
+              <li>Packages will now load from Firebase</li>
+              <li>Use admin panel to manage packages</li>
+              <li>You can delete this migration file</li>
+            </ol>
+          </div>
+
+          <a href="index.html" class="block mt-4 bg-blue-600 text-white text-center py-3 rounded-lg font-bold hover:bg-blue-700">
+            Go to Main Website
+          </a>
+          <a href="admin/index.html" class="block mt-2 bg-green-600 text-white text-center py-3 rounded-lg font-bold hover:bg-green-700">
+            Go to Admin Panel
+          </a>
+        </div>
+      `;
+
+      progressText.textContent = 'Migration completed!';
+    }
+  </script>
+</body>
+
+</html>
+""

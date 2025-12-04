@@ -217,7 +217,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getAuth, onAuthStateChanged, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getFirestore, doc, getDoc, setDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
     // Firebase configuration
     const firebaseConfig = {
@@ -310,9 +310,105 @@
       bookingsContent.classList.add('hidden');
     });
 
-    // Load bookings (mock data - you can connect to Firestore later)
-    function loadBookings() {
-      document.getElementById('totalBookings').textContent = '0';
+    // Load bookings from Firebase
+    async function loadBookings() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      try {
+        const bookingsQuery = query(
+          collection(db, 'bookings'),
+          where('userId', '==', user.uid)
+        );
+
+        const bookingsSnapshot = await getDocs(bookingsQuery);
+        const bookingsList = document.getElementById('bookingsList');
+
+        document.getElementById('totalBookings').textContent = bookingsSnapshot.size;
+
+        if (bookingsSnapshot.empty) {
+          bookingsList.innerHTML = `
+            <div class="text-center py-12">
+              <div class="text-6xl mb-4">📦</div>
+              <p class="text-gray-500 text-lg">No bookings yet</p>
+              <p class="text-gray-400 mb-6">Start exploring our amazing packages!</p>
+              <a href="index.html#packages"
+                class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all shadow-lg">
+                Browse Packages
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        // Convert to array and sort by createdAt
+        const bookingsArray = [];
+        bookingsSnapshot.forEach((doc) => {
+          bookingsArray.push({ id: doc.id, ...doc.data() });
+        });
+        bookingsArray.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        let html = '<div class="space-y-4">';
+
+        const statusColors = {
+          'pending': 'bg-yellow-100 text-yellow-800',
+          'confirmed': 'bg-green-100 text-green-800',
+          'cancelled': 'bg-red-100 text-red-800'
+        };
+
+        bookingsArray.forEach((booking) => {
+          const statusColor = statusColors[booking.status] || 'bg-gray-100 text-gray-800';
+
+          html += `
+            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+              <div class="flex justify-between items-start mb-4">
+                <div>
+                  <h4 class="text-xl font-bold text-gray-800">${booking.packageName}</h4>
+                  <p class="text-gray-600 text-sm">Booking ID: ${booking.id}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-xs font-bold ${statusColor}">
+                  ${booking.status.toUpperCase()}
+                </span>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <p class="text-gray-500 text-sm">Date</p>
+                  <p class="font-semibold">${booking.packageDate || 'TBD'}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">Duration</p>
+                  <p class="font-semibold">${booking.packageDuration || 'N/A'}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">Adults</p>
+                  <p class="font-semibold">${booking.adults} ${booking.isCouple ? '(Couple)' : ''}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">Total Amount</p>
+                  <p class="font-semibold text-blue-600">৳${booking.totalAmount.toLocaleString()}</p>
+                </div>
+              </div>
+              
+              <div class="text-xs text-gray-500">
+                Booked on: ${new Date(booking.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </div>
+            </div>
+          `;
+        });
+
+        html += '</div>';
+        bookingsList.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading bookings:', error);
+        document.getElementById('bookingsList').innerHTML = `
+          <div class="text-center py-12">
+            <p class="text-red-600">Error loading bookings</p>
+            <p class="text-gray-500 text-sm">${error.message}</p>
+          </div>
+        `;
+      }
     }
 
     // Save profile form

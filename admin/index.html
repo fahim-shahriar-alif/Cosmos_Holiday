@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Cosmos Holiday</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Navigation -->
+  <nav class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl font-bold">🔐 Cosmos Holiday Admin</h1>
+          <p class="text-sm text-blue-200">Management Dashboard</p>
+        </div>
+        <div id="userInfo" class="hidden">
+          <span id="adminEmail" class="mr-4"></span>
+          <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="container mx-auto px-4 py-20">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-xl p-8">
+      <h2 class="text-3xl font-bold text-center mb-6">Admin Login</h2>
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">Username</label>
+          <input type="text" id="loginEmail" required placeholder="admin"
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-gray-700 font-semibold mb-2">Password</label>
+          <input type="password" id="loginPassword" required placeholder="admin"
+            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">
+          Login
+        </button>
+      </form>
+      <div id="loginError" class="mt-4 text-red-600 text-center"></div>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="adminDashboard" class="hidden container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- Dashboard Cards -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-gray-500 text-sm font-semibold">Total Packages</h3>
+        <p id="totalPackages" class="text-4xl font-bold text-blue-600">0</p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-gray-500 text-sm font-semibold">Total Users</h3>
+        <p id="totalUsers" class="text-4xl font-bold text-green-600">0</p>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-gray-500 text-sm font-semibold">Total Bookings</h3>
+        <p id="totalBookings" class="text-4xl font-bold text-purple-600">0</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="flex border-b">
+        <button onclick="showTab('packages')" id="packagesTab"
+          class="flex-1 px-6 py-4 font-bold bg-blue-600 text-white">
+          📦 Manage Packages
+        </button>
+        <button onclick="showTab('bookings')" id="bookingsTab"
+          class="flex-1 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50">
+          📋 View Bookings
+        </button>
+        <button onclick="showTab('users')" id="usersTab"
+          class="flex-1 px-6 py-4 font-bold text-gray-600 hover:bg-gray-50">
+          👥 View Users
+        </button>
+      </div>
+    </div>
+
+    <!-- Packages Tab -->
+    <div id="packagesContent" class="bg-white rounded-lg shadow p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Packages Management</h2>
+        <button onclick="showAddPackageForm()"
+          class="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700">
+          + Add New Package
+        </button>
+      </div>
+      <div id="packagesList"></div>
+    </div>
+
+    <!-- Bookings Tab -->
+    <div id="bookingsContent" class="hidden bg-white rounded-lg shadow p-6">
+      <h2 class="text-2xl font-bold mb-6">All Bookings</h2>
+      <div id="bookingsList"></div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="usersContent" class="hidden bg-white rounded-lg shadow p-6">
+      <h2 class="text-2xl font-bold mb-6">Registered Users</h2>
+      <div id="usersList"></div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Package Modal -->
+  <div id="packageModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="modalTitle" class="text-2xl font-bold">Add New Package</h3>
+        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+      </div>
+      <form id="packageForm" class="space-y-4">
+        <input type="hidden" id="packageId">
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold mb-2">Package Name *</label>
+            <input type="text" id="packageName" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <div>
+            <label class="block font-semibold mb-2">Price (BDT) *</label>
+            <input type="number" id="packagePrice" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold mb-2">Duration *</label>
+            <input type="text" id="packageDuration" placeholder="3 Days / 2 Nights" required
+              class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <div>
+            <label class="block font-semibold mb-2">Seats *</label>
+            <input type="number" id="packageSeats" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold mb-2">Type *</label>
+            <select id="packageType" required class="w-full px-4 py-2 border rounded-lg">
+              <option value="domestic">Domestic</option>
+              <option value="international">International</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold mb-2">University *</label>
+            <select id="packageUniversity" required class="w-full px-4 py-2 border rounded-lg">
+              <option value="dhaka">University of Dhaka</option>
+              <option value="buet">BUET</option>
+              <option value="nsu">NSU</option>
+              <option value="brac">BRAC University</option>
+              <option value="iub">IUB</option>
+              <option value="aiub">AIUB</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold mb-2">Category *</label>
+            <input type="text" id="packageCategory" placeholder="Cox's Bazar" required
+              class="w-full px-4 py-2 border rounded-lg">
+          </div>
+          <div>
+            <label class="block font-semibold mb-2">Date *</label>
+            <input type="date" id="packageDate" required class="w-full px-4 py-2 border rounded-lg">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Image URL *</label>
+          <input type="url" id="packageImage" placeholder="https://..." required
+            class="w-full px-4 py-2 border rounded-lg">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Short Description *</label>
+          <textarea id="packageDescription" rows="2" required class="w-full px-4 py-2 border rounded-lg"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Full Details *</label>
+          <textarea id="packageDetails" rows="8" required
+            placeholder="Day 1: ...&#10;Day 2: ...&#10;&#10;What's Included:&#10;✓ Item 1&#10;✓ Item 2"
+            class="w-full px-4 py-2 border rounded-lg"></textarea>
+        </div>
+
+        <div class="flex gap-4">
+          <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">
+            Save Package
+          </button>
+          <button type="button" onclick="closeModal()"
+            class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-400">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div id="userModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg max-w-lg w-full p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-2xl font-bold">Edit User</h3>
+        <button onclick="closeUserModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+      </div>
+      <form id="userForm" class="space-y-4">
+        <input type="hidden" id="userId">
+
+        <div>
+          <label class="block font-semibold mb-2">Full Name *</label>
+          <input type="text" id="userFullName" required class="w-full px-4 py-2 border rounded-lg">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Email (Read-only)</label>
+          <input type="email" id="userEmail" readonly
+            class="w-full px-4 py-2 border rounded-lg bg-gray-100 cursor-not-allowed">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Phone Number</label>
+          <input type="tel" id="userPhone" placeholder="+880 1XXX-XXXXXX" class="w-full px-4 py-2 border rounded-lg">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-2">Gender</label>
+          <select id="userGender" class="w-full px-4 py-2 border rounded-lg">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+          </select>
+        </div>
+
+        <div class="flex gap-4">
+          <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">
+            Save Changes
+          </button>
+          <button type="button" onclick="closeUserModal()"
+            class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-400">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getFirestore, collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase configuration (same as main website)
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Simple login check
+    let isLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
+
+    // Check login state on load
+    if (isLoggedIn) {
+      showDashboard();
+    }
+
+    // Login
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      if (email === 'admin' && password === 'admin') {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        isLoggedIn = true;
+        errorDiv.textContent = '';
+        showDashboard();
+      } else {
+        errorDiv.textContent = 'Invalid username or password. Use: admin / admin';
+      }
+    });
+
+    // Logout
+    window.logout = () => {
+      sessionStorage.removeItem('adminLoggedIn');
+      isLoggedIn = false;
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('adminDashboard').classList.add('hidden');
+      document.getElementById('userInfo').classList.add('hidden');
+    };
+
+    // Show Dashboard
+    function showDashboard() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('adminDashboard').classList.remove('hidden');
+      document.getElementById('userInfo').classList.remove('hidden');
+      document.getElementById('adminEmail').textContent = 'Admin';
+      loadDashboard();
+    }
+
+    // Load Dashboard
+    async function loadDashboard() {
+      await loadPackages();
+      await loadUsers();
+      updateStats();
+    }
+
+    // Update Statistics
+    async function updateStats() {
+      const packagesSnapshot = await getDocs(collection(db, 'packages'));
+      const usersSnapshot = await getDocs(collection(db, 'users'));
+      const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
+
+      document.getElementById('totalPackages').textContent = packagesSnapshot.size;
+      document.getElementById('totalUsers').textContent = usersSnapshot.size;
+      document.getElementById('totalBookings').textContent = bookingsSnapshot.size;
+    }
+
+    // Load Bookings
+    async function loadBookings() {
+      const bookingsList = document.getElementById('bookingsList');
+
+      try {
+        bookingsList.innerHTML = '<p class="text-gray-500 text-center py-8">Loading bookings...</p>';
+
+        const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
+        console.log('Bookings loaded:', bookingsSnapshot.size);
+
+        if (bookingsSnapshot.empty) {
+          bookingsList.innerHTML = '<p class="text-gray-500 text-center py-8">No bookings yet.</p>';
+          return;
+        }
+
+        let html = '<div class="overflow-x-auto"><table class="w-full"><thead class="bg-gray-100"><tr><th class="px-4 py-3 text-left">User</th><th class="px-4 py-3 text-left">Package</th><th class="px-4 py-3 text-left">Adults</th><th class="px-4 py-3 text-left">Amount</th><th class="px-4 py-3 text-left">Status</th><th class="px-4 py-3 text-left">Date</th><th class="px-4 py-3 text-left">Actions</th></tr></thead><tbody>';
+
+        bookingsSnapshot.forEach((docSnap) => {
+          const booking = docSnap.data();
+          const statusColors = {
+            'pending': 'bg-yellow-100 text-yellow-800',
+            'confirmed': 'bg-green-100 text-green-800',
+            'cancelled': 'bg-red-100 text-red-800'
+          };
+          const statusColor = statusColors[booking.status] || 'bg-gray-100 text-gray-800';
+
+          html += `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-4 py-3">
+                <div class="font-semibold">${booking.userName}</div>
+                <div class="text-xs text-gray-500">${booking.userEmail}</div>
+                <div class="text-xs text-gray-500">${booking.userPhone}</div>
+              </td>
+              <td class="px-4 py-3 font-semibold">${booking.packageName}</td>
+              <td class="px-4 py-3">${booking.adults} ${booking.isCouple ? '(Couple)' : ''}</td>
+              <td class="px-4 py-3 font-bold text-blue-600">৳${booking.totalAmount.toLocaleString()}</td>
+              <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs font-bold ${statusColor}">${booking.status}</span></td>
+              <td class="px-4 py-3 text-sm">${new Date(booking.createdAt).toLocaleDateString()}</td>
+              <td class="px-4 py-3">
+                <button onclick="changeBookingStatus('${docSnap.id}', 'confirmed')" class="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600 mr-1">Confirm</button>
+                <button onclick="changeBookingStatus('${docSnap.id}', 'cancelled')" class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">Cancel</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table></div>';
+        bookingsList.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading bookings:', error);
+        bookingsList.innerHTML = `<div class="text-center py-8"><p class="text-red-600">Error loading bookings</p><p class="text-gray-500 text-sm">${error.message}</p></div>`;
+      }
+    }
+
+    // Change booking status
+    window.changeBookingStatus = async (bookingId, newStatus) => {
+      try {
+        await updateDoc(doc(db, 'bookings', bookingId), {
+          status: newStatus,
+          updatedAt: new Date().toISOString()
+        });
+        alert(`Booking ${newStatus}!`);
+        await loadBookings();
+        await updateStats();
+      } catch (error) {
+        alert('Error updating booking: ' + error.message);
+      }
+    };
+
+    // Tab Switching
+    window.showTab = async (tab) => {
+      // Hide all tabs
+      document.getElementById('packagesContent').classList.add('hidden');
+      document.getElementById('bookingsContent').classList.add('hidden');
+      document.getElementById('usersContent').classList.add('hidden');
+
+      // Reset all tab styles
+      document.getElementById('packagesTab').classList.remove('bg-blue-600', 'text-white');
+      document.getElementById('packagesTab').classList.add('text-gray-600');
+      document.getElementById('bookingsTab').classList.remove('bg-blue-600', 'text-white');
+      document.getElementById('bookingsTab').classList.add('text-gray-600');
+      document.getElementById('usersTab').classList.remove('bg-blue-600', 'text-white');
+      document.getElementById('usersTab').classList.add('text-gray-600');
+
+      // Show selected tab
+      if (tab === 'packages') {
+        document.getElementById('packagesContent').classList.remove('hidden');
+        document.getElementById('packagesTab').classList.add('bg-blue-600', 'text-white');
+        document.getElementById('packagesTab').classList.remove('text-gray-600');
+        await loadPackages();
+      } else if (tab === 'bookings') {
+        document.getElementById('bookingsContent').classList.remove('hidden');
+        document.getElementById('bookingsTab').classList.add('bg-blue-600', 'text-white');
+        document.getElementById('bookingsTab').classList.remove('text-gray-600');
+        await loadBookings();
+      } else {
+        document.getElementById('usersContent').classList.remove('hidden');
+        document.getElementById('usersTab').classList.add('bg-blue-600', 'text-white');
+        document.getElementById('usersTab').classList.remove('text-gray-600');
+        await loadUsers();
+      }
+    };
+
+    // Load Packages
+    async function loadPackages() {
+      const packagesSnapshot = await getDocs(query(collection(db, 'packages'), orderBy('name')));
+      const packagesList = document.getElementById('packagesList');
+
+      if (packagesSnapshot.empty) {
+        packagesList.innerHTML = '<p class="text-gray-500 text-center py-8">No packages yet. Add your first package!</p>';
+        return;
+      }
+
+      let html = '<div class="overflow-x-auto"><table class="w-full"><thead class="bg-gray-100"><tr><th class="px-4 py-3 text-left">Name</th><th class="px-4 py-3 text-left">Price</th><th class="px-4 py-3 text-left">Type</th><th class="px-4 py-3 text-left">Seats</th><th class="px-4 py-3 text-left">Actions</th></tr></thead><tbody>';
+
+      packagesSnapshot.forEach((docSnap) => {
+        const pkg = docSnap.data();
+        html += `
+          <tr class="border-b hover:bg-gray-50">
+            <td class="px-4 py-3 font-semibold">${pkg.name}</td>
+            <td class="px-4 py-3">৳${pkg.price.toLocaleString()}</td>
+            <td class="px-4 py-3"><span class="px-2 py-1 rounded text-xs ${pkg.type === 'domestic' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">${pkg.type}</span></td>
+            <td class="px-4 py-3">${pkg.seats}</td>
+            <td class="px-4 py-3">
+              <button onclick="editPackage('${docSnap.id}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 mr-2">Edit</button>
+              <button onclick="deletePackage('${docSnap.id}', '${pkg.name}')" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody></table></div>';
+      packagesList.innerHTML = html;
+    }
+
+    // Load Users
+    async function loadUsers() {
+      const usersList = document.getElementById('usersList');
+
+      try {
+        usersList.innerHTML = '<p class="text-gray-500 text-center py-8">Loading users...</p>';
+
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        console.log('Users loaded:', usersSnapshot.size);
+
+        if (usersSnapshot.empty) {
+          usersList.innerHTML = '<p class="text-gray-500 text-center py-8">No users registered yet. Users will appear here after they sign up on the main website.</p>';
+          return;
+        }
+
+        let html = '<div class="overflow-x-auto"><table class="w-full"><thead class="bg-gray-100"><tr><th class="px-4 py-3 text-left">Name</th><th class="px-4 py-3 text-left">Email</th><th class="px-4 py-3 text-left">Phone</th><th class="px-4 py-3 text-left">Gender</th><th class="px-4 py-3 text-left">Actions</th></tr></thead><tbody>';
+
+        usersSnapshot.forEach((docSnap) => {
+          const user = docSnap.data();
+          html += `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-4 py-3 font-semibold">${user.fullName || 'N/A'}</td>
+              <td class="px-4 py-3">${user.email || 'N/A'}</td>
+              <td class="px-4 py-3">${user.phoneNumber || 'N/A'}</td>
+              <td class="px-4 py-3">${user.gender || 'N/A'}</td>
+              <td class="px-4 py-3">
+                <button onclick="editUser('${docSnap.id}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 mr-2">Edit</button>
+                <button onclick="deleteUser('${docSnap.id}', '${user.fullName || user.email}')" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table></div>';
+        usersList.innerHTML = html;
+      } catch (error) {
+        console.error('Error loading users:', error);
+        usersList.innerHTML = `
+          <div class="text-center py-8">
+            <p class="text-red-600 font-bold mb-2">Error loading users</p>
+            <p class="text-gray-600 text-sm">${error.message}</p>
+            <button onclick="loadUsers()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // Make loadUsers available globally for retry button
+    window.loadUsers = loadUsers;
+
+    // Show Add Package Form
+    window.showAddPackageForm = () => {
+      document.getElementById('modalTitle').textContent = 'Add New Package';
+      document.getElementById('packageForm').reset();
+      document.getElementById('packageId').value = '';
+      document.getElementById('packageModal').classList.remove('hidden');
+    };
+
+    // Close Modal
+    window.closeModal = () => {
+      document.getElementById('packageModal').classList.add('hidden');
+    };
+
+    // Edit Package
+    window.editPackage = async (packageId) => {
+      const packageDoc = await getDocs(collection(db, 'packages'));
+      let packageData = null;
+
+      packageDoc.forEach((docSnap) => {
+        if (docSnap.id === packageId) {
+          packageData = docSnap.data();
+        }
+      });
+
+      if (packageData) {
+        document.getElementById('modalTitle').textContent = 'Edit Package';
+        document.getElementById('packageId').value = packageId;
+        document.getElementById('packageName').value = packageData.name;
+        document.getElementById('packagePrice').value = packageData.price;
+        document.getElementById('packageDuration').value = packageData.duration;
+        document.getElementById('packageSeats').value = packageData.seats;
+        document.getElementById('packageType').value = packageData.type;
+        document.getElementById('packageUniversity').value = packageData.university;
+        document.getElementById('packageCategory').value = packageData.category;
+        document.getElementById('packageDate').value = packageData.date;
+        document.getElementById('packageImage').value = packageData.image;
+        document.getElementById('packageDescription').value = packageData.description;
+        document.getElementById('packageDetails').value = packageData.details || '';
+        document.getElementById('packageModal').classList.remove('hidden');
+      }
+    };
+
+    // Delete Package
+    window.deletePackage = async (packageId, packageName) => {
+      if (confirm(`Are you sure you want to delete "${packageName}"?`)) {
+        try {
+          await deleteDoc(doc(db, 'packages', packageId));
+          alert('Package deleted successfully!');
+          loadPackages();
+          updateStats();
+        } catch (error) {
+          alert('Error deleting package: ' + error.message);
+        }
+      }
+    };
+
+    // Save Package
+    document.getElementById('packageForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const packageData = {
+        name: document.getElementById('packageName').value,
+        price: parseInt(document.getElementById('packagePrice').value),
+        duration: document.getElementById('packageDuration').value,
+        seats: parseInt(document.getElementById('packageSeats').value),
+        type: document.getElementById('packageType').value,
+        university: document.getElementById('packageUniversity').value,
+        category: document.getElementById('packageCategory').value,
+        date: document.getElementById('packageDate').value,
+        image: document.getElementById('packageImage').value,
+        description: document.getElementById('packageDescription').value,
+        details: document.getElementById('packageDetails').value,
+        updatedAt: new Date().toISOString()
+      };
+
+      const packageId = document.getElementById('packageId').value;
+
+      try {
+        if (packageId) {
+          // Update existing package
+          await updateDoc(doc(db, 'packages', packageId), packageData);
+          alert('Package updated successfully!');
+        } else {
+          // Add new package
+          packageData.createdAt = new Date().toISOString();
+          await addDoc(collection(db, 'packages'), packageData);
+          alert('Package added successfully!');
+        }
+
+        closeModal();
+        loadPackages();
+        updateStats();
+      } catch (error) {
+        alert('Error saving package: ' + error.message);
+      }
+    });
+
+    // User Management Functions
+
+    // Edit User
+    window.editUser = async (userId) => {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          document.getElementById('userId').value = userId;
+          document.getElementById('userFullName').value = userData.fullName || '';
+          document.getElementById('userEmail').value = userData.email || '';
+          document.getElementById('userPhone').value = userData.phoneNumber || '';
+          document.getElementById('userGender').value = userData.gender || '';
+          document.getElementById('userModal').classList.remove('hidden');
+        } else {
+          alert('User not found!');
+        }
+      } catch (error) {
+        alert('Error loading user: ' + error.message);
+      }
+    };
+
+    // Close User Modal
+    window.closeUserModal = () => {
+      document.getElementById('userModal').classList.add('hidden');
+    };
+
+    // Delete User
+    window.deleteUser = async (userId, userName) => {
+      if (confirm(`Are you sure you want to delete user "${userName}"?\n\nThis will permanently delete their account and all associated data.`)) {
+        try {
+          await deleteDoc(doc(db, 'users', userId));
+          alert('User deleted successfully!');
+          loadUsers();
+          updateStats();
+        } catch (error) {
+          alert('Error deleting user: ' + error.message);
+        }
+      }
+    };
+
+    // Save User
+    document.getElementById('userForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const userId = document.getElementById('userId').value;
+      const userData = {
+        fullName: document.getElementById('userFullName').value,
+        phoneNumber: document.getElementById('userPhone').value,
+        gender: document.getElementById('userGender').value,
+        updatedAt: new Date().toISOString()
+      };
+
+      try {
+        await updateDoc(doc(db, 'users', userId), userData);
+        alert('User updated successfully!');
+        closeUserModal();
+        loadUsers();
+      } catch (error) {
+        alert('Error updating user: ' + error.message);
+      }
+    });
+  </script>
+</body>
+
+</html>

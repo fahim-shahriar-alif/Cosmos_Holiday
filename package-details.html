@@ -52,15 +52,57 @@
   </footer>
 
   <script type="module">
-    // Import packages from packages.js
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, collection, getDocs, doc, getDoc, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
     import { staticPackages } from './js/packages.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+
+    // Check if user is logged in
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+    });
 
     // Get package ID from URL
     const urlParams = new URLSearchParams(window.location.search);
     const packageId = urlParams.get('id');
 
-    // Find package
-    const pkg = staticPackages.find(p => p.id === packageId);
+    // Load package from Firebase or static data
+    let pkg = null;
+
+    try {
+      // Try to load from Firebase first
+      const packageDoc = await getDoc(doc(db, 'packages', packageId));
+
+      if (packageDoc.exists()) {
+        pkg = { id: packageDoc.id, ...packageDoc.data() };
+        console.log('Loaded package from Firebase');
+      } else {
+        // Fallback to static packages
+        pkg = staticPackages.find(p => p.id === packageId);
+        console.log('Loaded package from static data');
+      }
+    } catch (error) {
+      console.error('Error loading package:', error);
+      // Fallback to static packages
+      pkg = staticPackages.find(p => p.id === packageId);
+    }
 
     const container = document.getElementById('packageContent');
 
@@ -325,17 +367,59 @@
     };
 
     // Submit booking
-    window.submitBooking = function (packageId) {
-      const pkg = staticPackages.find(p => p.id === packageId);
-      const isCouple = document.getElementById('isCouple').checked;
+    window.submitBooking = async function (packageId) {
+      // Check if user is logged in
+      if (!currentUser) {
+        alert('⚠️ Please login first to book a package!\n\nClick OK to go to login page.');
+        window.location.href = 'auth.html';
+        return;
+      }
 
+      const isCouple = document.getElementById('isCouple').checked;
       const adults = adultsCount;
       const subtotal = adults * basePrice;
       const total = subtotal + fee;
 
-      alert(`🎉 Booking Request Submitted!\n\n📦 Package: ${pkg.name}\n📅 Date: ${pkg.date || '2026-01-15'}\n👥 Adults: ${adults}\n💑 Couple: ${isCouple ? 'Yes' : 'No'}\n💰 Total Amount: ৳${total.toLocaleString()}\n\n✅ Our team will contact you shortly for payment details and confirmation!`);
+      try {
+        // Get user profile data
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        const userData = userDoc.exists() ? userDoc.data() : {};
 
-      // Later: Send to Firebase or backend
+        // Create booking data
+        const bookingData = {
+          userId: currentUser.uid,
+          userEmail: currentUser.email,
+          userName: userData.fullName || currentUser.email.split('@')[0],
+          userPhone: userData.phoneNumber || 'N/A',
+          packageId: pkg.id || packageId,
+          packageName: pkg.name,
+          packagePrice: pkg.price,
+          packageDate: pkg.date,
+          packageDuration: pkg.duration,
+          adults: adults,
+          isCouple: isCouple,
+          subtotal: subtotal,
+          fee: fee,
+          totalAmount: total,
+          status: 'pending',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        // Save to Firebase
+        const bookingRef = await addDoc(collection(db, 'bookings'), bookingData);
+
+        alert(`🎉 Booking Confirmed!\n\n📦 Package: ${pkg.name}\n📅 Date: ${pkg.date || '2026-01-15'}\n👥 Adults: ${adults}\n💑 Couple: ${isCouple ? 'Yes' : 'No'}\n💰 Total Amount: ৳${total.toLocaleString()}\n\n✅ Booking ID: ${bookingRef.id}\n\nOur team will contact you shortly for payment details!`);
+
+        // Redirect to profile to see bookings
+        setTimeout(() => {
+          window.location.href = 'profile.html';
+        }, 2000);
+
+      } catch (error) {
+        console.error('Error creating booking:', error);
+        alert('❌ Error creating booking: ' + error.message + '\n\nPlease try again or contact support.');
+      }
     };
   </script>
 </body>

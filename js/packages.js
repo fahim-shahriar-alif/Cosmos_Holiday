@@ -1,4 +1,21 @@
-// Static packages data (no database needed for now)
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+  authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+  projectId: "cosmos-holiday-563eb",
+  storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+  messagingSenderId: "176431895536",
+  appId: "1:176431895536:web:4746ef3299b77e043a0335"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Static packages data (fallback if Firebase is empty)
 export const staticPackages = [
     // Inside Bangladesh (Domestic)
     {
@@ -719,17 +736,51 @@ What's Excluded:
 ];
 
 let currentUniversityFilter = 'all';
+let allPackages = []; // Store packages loaded from Firebase
 
-// Load packages from static data
-function loadPackages(universityFilter = 'all') {
+// Load packages from Firebase
+async function loadPackagesFromFirebase() {
+    try {
+        const packagesSnapshot = await getDocs(collection(db, 'packages'));
+        const firebasePackages = [];
+        
+        packagesSnapshot.forEach((doc) => {
+            firebasePackages.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+        
+        // Use Firebase packages if available, otherwise use static
+        allPackages = firebasePackages.length > 0 ? firebasePackages : staticPackages;
+        console.log('Loaded packages:', allPackages.length, 'from', firebasePackages.length > 0 ? 'Firebase' : 'static data');
+        
+        return allPackages;
+    } catch (error) {
+        console.error('Error loading packages from Firebase:', error);
+        // Fallback to static packages
+        allPackages = staticPackages;
+        return staticPackages;
+    }
+}
+
+// Load packages and display
+async function loadPackages(universityFilter = 'all') {
     const insideContainer = document.getElementById('insideBangladeshPackages');
     const outsideContainer = document.getElementById('outsideBangladeshPackages');
     
-    let filteredPackages = staticPackages;
+    // Show loading state
+    if (insideContainer) insideContainer.innerHTML = '<p class="col-span-4 text-center text-gray-500 py-8">Loading packages...</p>';
+    if (outsideContainer) outsideContainer.innerHTML = '<p class="col-span-4 text-center text-gray-500 py-8">Loading packages...</p>';
+    
+    // Load packages from Firebase
+    await loadPackagesFromFirebase();
+    
+    let filteredPackages = allPackages;
     
     // Filter by university if not 'all'
     if (universityFilter !== 'all') {
-        filteredPackages = staticPackages.filter(p => p.university === universityFilter);
+        filteredPackages = allPackages.filter(p => p.university === universityFilter);
     }
     
     const insideBD = filteredPackages.filter(p => p.type === 'domestic');
