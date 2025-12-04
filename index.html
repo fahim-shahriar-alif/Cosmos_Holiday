@@ -5,6 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cosmos Holiday - Student Travel Agency</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="shortcut icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -150,7 +156,7 @@
           <div
             class="w-[500px] h-[500px] rounded-full bg-gradient-to-br from-yellow-300 via-orange-400 to-pink-500 relative overflow-hidden"
             style="box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);">
-            <img src="debtakhum.png" alt="Cosmos Holiday" class="w-full h-full object-cover rounded-full"
+            <img src="debtakhum.jpg" alt="Cosmos Holiday" class="w-full h-full object-cover rounded-full"
               style="box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
           </div>
         </div>
@@ -224,50 +230,26 @@
   <!-- Gallery Section -->
   <section id="gallery" class="bg-white py-16">
     <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-12">Photo Gallery</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-          <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop" alt="Cox's Bazar"
-            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-            <h3 class="text-white font-bold text-xl">Cox's Bazar</h3>
-          </div>
-        </div>
-        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop" alt="Bandarban"
-            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-            <h3 class="text-white font-bold text-xl">Bandarban Hills</h3>
-          </div>
-        </div>
-        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-          <img src="https://images.unsplash.com/photo-1563789031959-4c02bcb41319?w=600&h=400&fit=crop" alt="Sylhet"
-            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-            <h3 class="text-white font-bold text-xl">Sylhet Tea Gardens</h3>
-          </div>
-        </div>
-        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-          <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&h=400&fit=crop" alt="Maldives"
-            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-            <h3 class="text-white font-bold text-xl">Maldives</h3>
-          </div>
-        </div>
-        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-          <img src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=600&h=400&fit=crop" alt="Thailand"
-            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-            <h3 class="text-white font-bold text-xl">Bangkok</h3>
-          </div>
-        </div>
-        <div class="relative overflow-hidden rounded-xl shadow-lg group">
-          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&h=400&fit=crop" alt="Dubai"
-            class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-            <h3 class="text-white font-bold text-xl">Dubai</h3>
-          </div>
-        </div>
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold mb-4">Photo Gallery</h2>
+        <p class="text-gray-600">Explore our amazing travel destinations</p>
+      </div>
+
+      <!-- Loading State -->
+      <div id="homeGalleryLoading" class="text-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto mb-4"></div>
+        <p class="text-gray-600">Loading albums...</p>
+      </div>
+
+      <!-- Albums Grid -->
+      <div id="homeGalleryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6 hidden"></div>
+
+      <!-- View More Button -->
+      <div class="text-center mt-12">
+        <a href="gallery.html"
+          class="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all shadow-lg hover:shadow-xl">
+          View Full Gallery →
+        </a>
       </div>
     </div>
   </section>
@@ -344,31 +326,88 @@
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="bg-white py-16">
-    <div class="container mx-auto px-4 max-w-2xl">
-      <h2 class="text-4xl font-bold text-center mb-8" data-i18n="contact.title">Send Us a Message</h2>
-      <form id="contactForm" class="bg-gray-50 p-8 rounded-lg shadow-lg">
-        <div class="mb-4">
-          <label class="block text-gray-700 mb-2 font-semibold" data-i18n="contact.name">Name</label>
-          <input type="text" name="from_name" required
-            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+  <section id="contact" class="bg-gradient-to-br from-gray-50 to-blue-50 py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12" data-i18n="contact.title">Get In Touch</h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+
+        <!-- Left Side: Contact Form -->
+        <div class="flex flex-col">
+          <form id="contactForm" class="bg-white p-8 rounded-2xl shadow-xl flex-1 flex flex-col">
+            <div class="flex-1 space-y-4">
+              <div>
+                <label class="block text-gray-700 mb-2 font-semibold" data-i18n="contact.name">Name</label>
+                <input type="text" name="from_name" required
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-gray-700 mb-2 font-semibold" data-i18n="contact.email">Email</label>
+                <input type="email" name="from_email" required
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div class="flex-1">
+                <label class="block text-gray-700 mb-2 font-semibold" data-i18n="contact.message">Message</label>
+                <textarea name="message" rows="8" required
+                  class="w-full h-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+              </div>
+            </div>
+            <button type="submit"
+              class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 font-semibold text-lg transition-all shadow-lg hover:shadow-xl mt-6"
+              data-i18n="contact.send">Send Message</button>
+          </form>
+          <div id="contactStatus" class="mt-4 text-center"></div>
         </div>
-        <div class="mb-4">
-          <label class="block text-gray-700 mb-2 font-semibold" data-i18n="contact.email">Email</label>
-          <input type="email" name="from_email" required
-            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+        <!-- Right Side: Contact Info -->
+        <div class="flex flex-col gap-6">
+
+          <!-- Office Address Card -->
+          <div class="bg-white p-8 rounded-2xl shadow-xl">
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+              <span class="text-3xl">📍</span> Office Address
+            </h3>
+            <p class="text-gray-700 leading-relaxed text-xl">
+              House #123, Road #4<br>
+              Dhanmondi, Dhaka-1205<br>
+              Bangladesh
+            </p>
+          </div>
+
+          <!-- Payment Partners Card -->
+          <div class="bg-white p-8 rounded-2xl shadow-xl">
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+              <span class="text-3xl">💳</span> Payment Partners
+            </h3>
+            <div class="grid grid-cols-2 gap-5">
+              <!-- bKash -->
+              <div
+                class="bg-white border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center shadow-md hover:shadow-xl hover:scale-105 transition-all">
+                <img src="logo/bkash.png" alt="bKash" class="h-10 w-auto object-contain">
+              </div>
+
+              <!-- Nagad -->
+              <div
+                class="bg-white border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center shadow-md hover:shadow-xl hover:scale-105 transition-all">
+                <img src="logo/nagad.png" alt="Nagad" class="h-10 w-auto object-contain">
+              </div>
+
+              <!-- Rocket -->
+              <div
+                class="bg-white border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center shadow-md hover:shadow-xl hover:scale-105 transition-all">
+                <img src="logo/rocket.png" alt="Rocket" class="h-10 w-auto object-contain">
+              </div>
+
+              <!-- Bank Transfer -->
+              <div
+                class="bg-white border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center shadow-md hover:shadow-xl hover:scale-105 transition-all">
+                <img src="logo/bank.png" alt="Bank Transfer" class="h-10 w-auto object-contain">
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div class="mb-4">
-          <label class="block text-gray-700 mb-2 font-semibold" data-i18n="contact.message">Message</label>
-          <textarea name="message" rows="5" required
-            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-        </div>
-        <button type="submit"
-          class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-semibold text-lg"
-          data-i18n="contact.send">Send
-          Message</button>
-      </form>
-      <div id="contactStatus" class="mt-4 text-center"></div>
+      </div>
     </div>
   </section>
 
@@ -386,7 +425,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getFirestore, doc, getDoc, collection, getDocs, query, where, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
     // Firebase configuration
     const firebaseConfig = {
@@ -402,6 +441,74 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    // Load home gallery albums
+    async function loadHomeGallery() {
+      const galleryGrid = document.getElementById('homeGalleryGrid');
+      const loadingGallery = document.getElementById('homeGalleryLoading');
+
+      try {
+        // Load first 6 albums
+        const albumsQuery = query(collection(db, 'albums'), limit(6));
+        const albumsSnapshot = await getDocs(albumsQuery);
+
+        loadingGallery.classList.add('hidden');
+        galleryGrid.classList.remove('hidden');
+
+        if (albumsSnapshot.empty) {
+          galleryGrid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No albums yet</div>';
+          return;
+        }
+
+        galleryGrid.innerHTML = '';
+
+        // Get photo count and cover image for each album
+        for (const docSnap of albumsSnapshot.docs) {
+          const album = docSnap.data();
+          const albumId = docSnap.id;
+
+          // Get first photo as cover
+          const photosQuery = query(collection(db, 'photos'), where('albumId', '==', albumId), limit(1));
+          const photosSnapshot = await getDocs(photosQuery);
+
+          // Count total photos
+          const allPhotosQuery = query(collection(db, 'photos'), where('albumId', '==', albumId));
+          const allPhotosSnapshot = await getDocs(allPhotosQuery);
+          const photoCount = allPhotosSnapshot.size;
+
+          let coverImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop';
+          if (!photosSnapshot.empty) {
+            coverImage = photosSnapshot.docs[0].data().imageUrl;
+          }
+
+          const albumCard = `
+            <div class="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer" onclick="window.location.href='gallery.html'">
+              <img src="${coverImage}" alt="${album.name}"
+                class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                onerror="this.src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop'">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-4">
+                <h3 class="text-white font-bold text-xl mb-1">${album.name}</h3>
+                <p class="text-white/80 text-sm mb-2">${album.description || ''}</p>
+                <div class="flex items-center gap-2">
+                  <span class="text-white/90 text-xs">📸 ${photoCount} photos</span>
+                  <span class="text-white/90 text-xs">•</span>
+                  <span class="text-white/90 text-xs">${album.category === 'domestic' ? '🇧🇩 Domestic' : '🌍 International'}</span>
+                </div>
+              </div>
+            </div>
+          `;
+
+          galleryGrid.innerHTML += albumCard;
+        }
+
+      } catch (error) {
+        console.error('Error loading home gallery:', error);
+        loadingGallery.innerHTML = '<div class="text-center py-12 text-red-600">Error loading gallery</div>';
+      }
+    }
+
+    // Load gallery on page load
+    loadHomeGallery();
 
     // Initialize language
     initLanguage();

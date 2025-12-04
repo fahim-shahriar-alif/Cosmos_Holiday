@@ -5,6 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gallery - Cosmos Holiday</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="shortcut icon" type="image/png" href="logo.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -79,15 +84,15 @@
   <section class="bg-white py-8 sticky top-20 z-40 shadow-md">
     <div class="container mx-auto px-4">
       <div class="flex justify-center gap-4 flex-wrap">
-        <button onclick="filterGallery('all')"
+        <button onclick="filterAlbums('all')"
           class="gallery-filter active px-6 py-2 rounded-full font-semibold transition-all" data-category="all">
-          All Destinations
+          All Albums
         </button>
-        <button onclick="filterGallery('domestic')"
+        <button onclick="filterAlbums('domestic')"
           class="gallery-filter px-6 py-2 rounded-full font-semibold transition-all" data-category="domestic">
           Inside Bangladesh
         </button>
-        <button onclick="filterGallery('international')"
+        <button onclick="filterAlbums('international')"
           class="gallery-filter px-6 py-2 rounded-full font-semibold transition-all" data-category="international">
           Outside Bangladesh
         </button>
@@ -95,170 +100,51 @@
     </div>
   </section>
 
-  <!-- Gallery Grid -->
+  <!-- Gallery Albums Grid -->
   <section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4">
-      <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Domestic Destinations -->
-        <div class="gallery-item domestic" data-category="domestic">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop" alt="Cox's Bazar"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Cox's Bazar</h3>
-                <p class="text-white/90 text-sm">World's longest natural sea beach</p>
-                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Loading State -->
+      <div id="loadingGallery" class="text-center py-20">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+        <p class="text-gray-600">Loading albums...</p>
+      </div>
 
-        <div class="gallery-item domestic" data-category="domestic">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop" alt="Bandarban"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Bandarban Hills</h3>
-                <p class="text-white/90 text-sm">Majestic mountains and tribal culture</p>
-                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item domestic" data-category="domestic">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1563789031959-4c02bcb41319?w=800&h=600&fit=crop" alt="Sylhet"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Sylhet Tea Gardens</h3>
-                <p class="text-white/90 text-sm">Lush green tea estates and waterfalls</p>
-                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item domestic" data-category="domestic">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=800&h=600&fit=crop"
-              alt="Sundarbans" class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Sundarbans</h3>
-                <p class="text-white/90 text-sm">Largest mangrove forest in the world</p>
-                <span class="inline-block mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs">Domestic</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- International Destinations -->
-        <div class="gallery-item international" data-category="international">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&h=600&fit=crop" alt="Maldives"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Maldives</h3>
-                <p class="text-white/90 text-sm">Tropical paradise with crystal waters</p>
-                <span
-                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item international" data-category="international">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&h=600&fit=crop" alt="Bangkok"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Bangkok, Thailand</h3>
-                <p class="text-white/90 text-sm">Vibrant city with temples and markets</p>
-                <span
-                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item international" data-category="international">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop" alt="Dubai"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Dubai, UAE</h3>
-                <p class="text-white/90 text-sm">Modern city with luxury shopping</p>
-                <span
-                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item international" data-category="international">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800&h=600&fit=crop" alt="Singapore"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Singapore</h3>
-                <p class="text-white/90 text-sm">Garden city with modern architecture</p>
-                <span
-                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item international" data-category="international">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&h=600&fit=crop" alt="Bali"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">Bali, Indonesia</h3>
-                <p class="text-white/90 text-sm">Island paradise with temples and beaches</p>
-                <span
-                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="gallery-item international" data-category="international">
-          <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer">
-            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop" alt="London"
-              class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div class="absolute bottom-0 left-0 right-0 p-6">
-                <h3 class="text-white text-2xl font-bold mb-2">London, UK</h3>
-                <p class="text-white/90 text-sm">Historic city with iconic landmarks</p>
-                <span
-                  class="inline-block mt-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs">International</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Albums Grid -->
+      <div id="albumsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
       </div>
     </div>
   </section>
+
+  <!-- Album Photos Modal -->
+  <div id="albumModal" class="hidden fixed inset-0 bg-black bg-opacity-90 z-50 overflow-y-auto">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Close Button -->
+      <button onclick="closeAlbumModal()"
+        class="fixed top-4 right-4 bg-white text-gray-800 w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold hover:bg-gray-200 transition-all shadow-lg z-50">
+        ×
+      </button>
+
+      <!-- Album Header -->
+      <div class="text-center mb-8">
+        <h2 id="albumTitle" class="text-4xl font-bold text-white mb-2"></h2>
+        <p id="albumDescription" class="text-white/80 text-lg"></p>
+        <span id="albumCategory" class="inline-block mt-2 px-4 py-1 rounded-full text-sm font-bold"></span>
+      </div>
+
+      <!-- Photos Grid -->
+      <div id="albumPhotos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </div>
+
+  <!-- Single Photo Lightbox -->
+  <div id="photoLightbox"
+    class="hidden fixed inset-0 bg-black bg-opacity-95 z-[60] flex items-center justify-center p-4">
+    <button onclick="closeLightbox()"
+      class="fixed top-4 right-4 bg-white text-gray-800 w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold hover:bg-gray-200 transition-all shadow-lg z-50">
+      ×
+    </button>
+    <img id="lightboxImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
+  </div>
 
   <!-- Footer -->
   <footer class="bg-blue-600 text-white py-6">
@@ -285,7 +171,7 @@
       border-color: #2563eb;
     }
 
-    .gallery-item {
+    .album-item {
       animation: fadeIn 0.5s ease-in;
     }
 
@@ -302,12 +188,212 @@
     }
   </style>
 
-  <script>
-    function filterGallery(category) {
-      const items = document.querySelectorAll('.gallery-item');
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdj4hBMQ0lXBd3J-Mq7r4BgOdZeuca9aY",
+      authDomain: "cosmos-holiday-563eb.firebaseapp.com",
+      projectId: "cosmos-holiday-563eb",
+      storageBucket: "cosmos-holiday-563eb.firebasestorage.app",
+      messagingSenderId: "176431895536",
+      appId: "1:176431895536:web:4746ef3299b77e043a0335"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Check auth state
+    onAuthStateChanged(auth, (user) => {
+      const authBtn = document.getElementById('authBtn');
+      if (user) {
+        authBtn.textContent = 'Profile';
+        authBtn.onclick = () => window.location.href = 'profile.html';
+      } else {
+        authBtn.textContent = 'Login';
+        authBtn.onclick = () => window.location.href = 'auth.html';
+      }
+    });
+
+    // Load albums from Firebase
+    async function loadAlbums() {
+      const albumsGrid = document.getElementById('albumsGrid');
+      const loadingGallery = document.getElementById('loadingGallery');
+
+      try {
+        const albumsSnapshot = await getDocs(collection(db, 'albums'));
+
+        loadingGallery.classList.add('hidden');
+        albumsGrid.classList.remove('hidden');
+
+        if (albumsSnapshot.empty) {
+          albumsGrid.innerHTML = `
+            <div class="col-span-full text-center py-20">
+              <div class="text-6xl mb-4">📸</div>
+              <p class="text-gray-500 text-lg">No albums yet</p>
+              <p class="text-gray-400">Check back soon for amazing travel photos!</p>
+            </div>
+          `;
+          return;
+        }
+
+        albumsGrid.innerHTML = '';
+
+        // Get photo counts for each album
+        for (const docSnap of albumsSnapshot.docs) {
+          const album = docSnap.data();
+          const albumId = docSnap.id;
+
+          // Count photos in this album
+          const photosQuery = query(collection(db, 'photos'), where('albumId', '==', albumId));
+          const photosSnapshot = await getDocs(photosQuery);
+          const photoCount = photosSnapshot.size;
+
+          // Get cover photo (first photo or default)
+          let coverImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop';
+          if (!photosSnapshot.empty) {
+            coverImage = photosSnapshot.docs[0].data().imageUrl;
+          }
+
+          const categoryClass = album.category || 'domestic';
+          const categoryLabel = categoryClass === 'domestic' ? 'Domestic' : 'International';
+          const categoryColor = categoryClass === 'domestic' ? 'bg-blue-500' : 'bg-purple-500';
+
+          const albumCard = `
+            <div class="album-item ${categoryClass}" data-category="${categoryClass}">
+              <div class="relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer" onclick="openAlbum('${albumId}')">
+                <img src="${coverImage}" alt="${album.name}"
+                  class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                  onerror="this.src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop'">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 class="text-white text-2xl font-bold mb-2">${album.name}</h3>
+                    <p class="text-white/90 text-sm mb-3">${album.description || ''}</p>
+                    <div class="flex items-center justify-between">
+                      <span class="inline-block ${categoryColor} text-white px-3 py-1 rounded-full text-xs">${categoryLabel}</span>
+                      <span class="text-white/90 text-sm">📸 ${photoCount} photos</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Photo Count Badge -->
+                <div class="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-bold">
+                  ${photoCount} 📷
+                </div>
+              </div>
+            </div>
+          `;
+
+          albumsGrid.innerHTML += albumCard;
+        }
+
+      } catch (error) {
+        console.error('Error loading albums:', error);
+        loadingGallery.innerHTML = `
+          <div class="text-center py-20">
+            <p class="text-red-600 font-bold mb-2">Error loading albums</p>
+            <p class="text-gray-500 text-sm">${error.message}</p>
+            <button onclick="location.reload()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // Open album and show photos
+    window.openAlbum = async function (albumId) {
+      const modal = document.getElementById('albumModal');
+      const albumTitle = document.getElementById('albumTitle');
+      const albumDescription = document.getElementById('albumDescription');
+      const albumCategory = document.getElementById('albumCategory');
+      const albumPhotos = document.getElementById('albumPhotos');
+
+      try {
+        // Get album details
+        const albumsSnapshot = await getDocs(collection(db, 'albums'));
+        let album = null;
+        albumsSnapshot.forEach(doc => {
+          if (doc.id === albumId) {
+            album = doc.data();
+          }
+        });
+
+        if (!album) {
+          alert('Album not found!');
+          return;
+        }
+
+        // Set album info
+        albumTitle.textContent = album.name;
+        albumDescription.textContent = album.description || '';
+        const categoryLabel = album.category === 'domestic' ? 'Domestic' : 'International';
+        const categoryColor = album.category === 'domestic' ? 'bg-blue-500' : 'bg-purple-500';
+        albumCategory.className = `inline-block ${categoryColor} text-white px-4 py-1 rounded-full text-sm font-bold`;
+        albumCategory.textContent = categoryLabel;
+
+        // Load photos
+        albumPhotos.innerHTML = '<div class="col-span-full text-center py-8"><div class="animate-spin rounded-full h-12 w-12 border-b-4 border-white mx-auto"></div></div>';
+
+        const photosQuery = query(collection(db, 'photos'), where('albumId', '==', albumId));
+        const photosSnapshot = await getDocs(photosQuery);
+
+        if (photosSnapshot.empty) {
+          albumPhotos.innerHTML = '<div class="col-span-full text-center py-8 text-white">No photos in this album yet</div>';
+        } else {
+          albumPhotos.innerHTML = '';
+          photosSnapshot.forEach(doc => {
+            const photo = doc.data();
+            albumPhotos.innerHTML += `
+              <div class="relative overflow-hidden rounded-lg shadow-xl group cursor-pointer" onclick="openLightbox('${photo.imageUrl}')">
+                <img src="${photo.imageUrl}" alt="${photo.caption || album.name}"
+                  class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                  onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                ${photo.caption ? `
+                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p class="text-white text-sm">${photo.caption}</p>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          });
+        }
+
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+      } catch (error) {
+        console.error('Error loading album photos:', error);
+        alert('Error loading photos: ' + error.message);
+      }
+    };
+
+    // Close album modal
+    window.closeAlbumModal = function () {
+      document.getElementById('albumModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    };
+
+    // Open lightbox
+    window.openLightbox = function (imageUrl) {
+      document.getElementById('lightboxImage').src = imageUrl;
+      document.getElementById('photoLightbox').classList.remove('hidden');
+    };
+
+    // Close lightbox
+    window.closeLightbox = function () {
+      document.getElementById('photoLightbox').classList.add('hidden');
+    };
+
+    // Filter albums
+    window.filterAlbums = function (category) {
+      const items = document.querySelectorAll('.album-item');
       const buttons = document.querySelectorAll('.gallery-filter');
 
-      // Update active button
       buttons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-category') === category) {
@@ -315,7 +401,6 @@
         }
       });
 
-      // Filter items
       items.forEach(item => {
         if (category === 'all' || item.getAttribute('data-category') === category) {
           item.style.display = 'block';
@@ -323,14 +408,9 @@
           item.style.display = 'none';
         }
       });
-    }
-
-    // Login button
-    document.getElementById('authBtn').onclick = () => {
-      alert('Login feature will be added with Firebase later!');
     };
 
-    // Language toggle (placeholder)
+    // Language toggle
     document.getElementById('langToggle').onclick = () => {
       const langIcon = document.getElementById('langIcon');
       const langText = document.getElementById('langText');
@@ -343,6 +423,9 @@
         langText.textContent = 'EN';
       }
     };
+
+    // Load albums on page load
+    loadAlbums();
   </script>
 </body>
 
