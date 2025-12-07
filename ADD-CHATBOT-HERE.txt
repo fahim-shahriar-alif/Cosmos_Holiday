@@ -1,0 +1,89 @@
+================================================================================
+  HOW TO ADD CHATBOT TO YOUR WEBSITE - VISUAL GUIDE
+================================================================================
+
+STEP 1: Get your Tawk.to code from https://www.tawk.to (FREE)
+
+STEP 2: Open each HTML file and find the closing </body> tag
+
+STEP 3: Paste the Tawk.to code BEFORE the </body> tag
+
+================================================================================
+
+EXAMPLE - index.html:
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cosmos Holiday</title>
+</head>
+<body>
+  
+  <!-- Your website content here -->
+  <h1>Welcome to Cosmos Holiday</h1>
+  
+  <!-- All your existing scripts -->
+  <script src="js/packages.js"></script>
+  <script src="js/i18n.js"></script>
+  
+  <!-- ⬇️ ADD CHATBOT CODE HERE ⬇️ -->
+  <script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/YOUR_PROPERTY_ID/YOUR_WIDGET_ID';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!-- ⬆️ CHATBOT CODE ENDS HERE ⬆️ -->
+  
+</body>
+</html>
+
+================================================================================
+
+FILES TO UPDATE:
+
+✅ index.html          (Home page)
+✅ gallery.html        (Gallery page)
+✅ booking.html        (Booking page)
+✅ profile.html        (Profile page)
+✅ auth.html           (Login page)
+✅ package-details.html (Package details)
+✅ admin/index.html    (Admin panel - optional)
+
+================================================================================
+
+IMPORTANT NOTES:
+
+1. Replace YOUR_PROPERTY_ID and YOUR_WIDGET_ID with your actual IDs from Tawk.to
+
+2. Add the SAME code to ALL pages (so chatbot appears everywhere)
+
+3. The code should be added BEFORE </body> tag (at the end of the file)
+
+4. Save all files after adding the code
+
+5. Test by opening your website - you should see a chat widget in bottom-right
+
+================================================================================
+
+QUICK TEST:
+
+1. Open index.html in browser
+2. Look for chat bubble in bottom-right corner
+3. Click it and send a test message
+4. Check your Tawk.to dashboard - you should see the message!
+
+================================================================================
+
+NEED HELP?
+
+- Detailed Guide: CHATBOT-SETUP.md
+- Quick Start: CHATBOT-QUICK-START.md
+- Tawk.to Help: https://help.tawk.to
+
+================================================================================
